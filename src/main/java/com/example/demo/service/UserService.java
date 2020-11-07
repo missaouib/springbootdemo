@@ -8,4 +8,8 @@ public interface UserService {
     List<User> getList();
 
     Integer  save(User user);
+
+    User findById(int id);
+
+    void MultiThread();
 }
