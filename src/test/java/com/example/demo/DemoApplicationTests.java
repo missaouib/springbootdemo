@@ -1,6 +1,8 @@
 package com.example.demo;
 
 import com.example.demo.entity.User;
+//import com.example.demo.kafka.KafkaReceiver;
+import com.example.demo.kafka.KafkaSender;
 import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -22,6 +24,12 @@ class DemoApplicationTests {
     @Autowired
     private RedissonClient redissonClient;
 
+    @Autowired
+    private KafkaSender kafkaSender;
+
+//    @Autowired
+//    private KafkaReceiver kafkaReceiver;
+
     @Test
     void contextLoads() {
     }
@@ -32,7 +40,7 @@ class DemoApplicationTests {
         user.setUsername("hi");
         user.setPassword("passwd");
         List<User> list = userService.getList();
-        list.forEach(System.out::println);
+        list.forEach(e -> log.warn(e.toString()));
     }
 
     @Test
@@ -45,12 +53,20 @@ class DemoApplicationTests {
             if (isLock) {
                 //TODO if get lock success, do something;
                 log.info("GET LOCK");
-                Thread.sleep(2000);
+                Thread.sleep(1000);
             }
         } catch (Exception e) {
         } finally {
             // 无论如何, 最后都要解锁
             disLock.unlock();
+        }
+    }
+
+    @Test
+    public void test3(){
+        for (int i = 0; i < 10; i++) {
+            kafkaSender.send();
+//            kafkaReceiver.listen();
         }
     }
 }

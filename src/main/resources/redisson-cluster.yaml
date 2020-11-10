@@ -1,0 +1,24 @@
+clusterServersConfig:
+  idleConnectionTimeout: 10000
+  connectTimeout: 10000
+  timeout: 3000
+  retryAttempts: 1
+  retryInterval: 1500
+  failedSlaveReconnectionInterval: 3000
+  failedSlaveCheckInterval: 3
+  password: null
+  subscriptionsPerConnection: 1
+  clientName: null
+  loadBalancer: !<org.redisson.connection.balancer.RoundRobinLoadBalancer> {}
+  slaveConnectionMinimumIdleSize: 2
+  slaveConnectionPoolSize: 16
+  masterConnectionMinimumIdleSize: 2
+  masterConnectionPoolSize: 16
+  readMode: "SLAVE"
+  nodeAddresses:
+    - "redis://127.0.0.1:6379"
+  scanInterval: 1000
+threads: 2
+nettyThreads: 4
+codec: !<org.redisson.codec.JsonJacksonCodec> {}
+transportMode: NIO
