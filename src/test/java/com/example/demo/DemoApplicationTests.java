@@ -2,6 +2,7 @@ package com.example.demo;
 
 import com.example.demo.entity.User;
 //import com.example.demo.kafka.KafkaReceiver;
+import com.example.demo.kafka.KafkaReceiver;
 import com.example.demo.kafka.KafkaSender;
 import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +28,8 @@ class DemoApplicationTests {
     @Autowired
     private KafkaSender kafkaSender;
 
-//    @Autowired
-//    private KafkaReceiver kafkaReceiver;
+    @Autowired
+    private KafkaReceiver kafkaReceiver;
 
     @Test
     void contextLoads() {
@@ -66,7 +67,6 @@ class DemoApplicationTests {
     public void test3(){
         for (int i = 0; i < 10; i++) {
             kafkaSender.send();
-//            kafkaReceiver.listen();
         }
     }
 }

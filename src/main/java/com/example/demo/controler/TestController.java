@@ -1,6 +1,7 @@
 package com.example.demo.controler;
 
 import com.example.demo.entity.User;
+import com.example.demo.kafka.KafkaSender;
 import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,9 @@ import java.util.Random;
 public class TestController {
     @Autowired
     UserService userService;
+
+    @Autowired
+    private KafkaSender kafkaSender;
 
     @GetMapping("/test")
     public String test(){
@@ -33,6 +37,13 @@ public class TestController {
             user.setPassword("000"+i+randNum);
             user.setUsername("wang"+i+randNum);
             userService.save(user);
+        }
+    }
+
+    @GetMapping("/kafka")
+    public void kafka(){
+        for (int i = 0; i < 100000; i++) {
+            kafkaSender.send();
         }
     }
 }
