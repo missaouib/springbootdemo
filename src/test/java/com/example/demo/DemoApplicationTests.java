@@ -69,4 +69,10 @@ class DemoApplicationTests {
             kafkaSender.send();
         }
     }
+
+    @Test
+    public void test4(){
+        userService.MultiThread();
+    }
+
 }
