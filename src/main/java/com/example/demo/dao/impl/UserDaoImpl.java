@@ -13,6 +13,7 @@ import java.util.List;
 public class UserDaoImpl implements UserDao {
     @Autowired
     private UserMapper userMapper;
+
     @Override
     public List<User> selectAll() {
         UserExample example = new UserExample();
@@ -26,7 +27,12 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public int save(User entity) {
+    public int insert(User entity) {
         return userMapper.insert(entity);
+    }
+
+    @Override
+    public int batchInsert(List<User> list) {
+        return userMapper.batchInsert(list);
     }
 }

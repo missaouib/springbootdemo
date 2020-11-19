@@ -176,4 +176,11 @@
       password = #{password,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
+
+  <insert id="batchInsert" parameterType="java.util.List">
+    insert into user(id,username,password) values
+    <foreach collection="list" item="item" index="index" separator=",">
+      (null,#{item.username},#{item.password})
+    </foreach>
+  </insert>
 </mapper>

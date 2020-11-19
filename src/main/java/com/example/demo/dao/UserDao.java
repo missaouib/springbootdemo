@@ -6,6 +6,10 @@ import java.util.List;
 
 public interface UserDao {
     List<User> selectAll();
+
     User findById(int id);
-    int save(User entity);
+
+    int insert(User entity);
+
+    int batchInsert(List<User> list);
 }

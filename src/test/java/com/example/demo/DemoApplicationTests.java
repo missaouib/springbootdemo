@@ -77,7 +77,7 @@ class DemoApplicationTests {
 
     @Test
     public void test4(){
-        userService.MultiThread();
+        userService.multiThread();
     }
 
     @Test
