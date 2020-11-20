@@ -13,10 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
+import java.util.concurrent.*;
 
 @RequestMapping("/user")
 @RestController
@@ -82,13 +79,16 @@ public class UserController {
     public void random() {
         long start = System.currentTimeMillis();
         int size = 1000;
-        for (int i = 0; i < size; i++) {
+        for (int i = 1; i <= size; i++) {
             Random r = new Random();
             int randNum = Math.abs(r.nextInt() % 10000);
             User user = new User();
             user.setPassword("000" + i + randNum);
             user.setUsername("wang" + i + randNum);
             userService.insert(user);
+//            if(i== 20){
+//                int a = 1/0;
+//            }
         }
         long end = System.currentTimeMillis();
         log.error("time: " + (end - start));
@@ -102,7 +102,7 @@ public class UserController {
         long start = System.currentTimeMillis();
         ArrayList<User> list = new ArrayList<>();
         int size = 1000;
-        for (int i = 0; i < size; i++) {
+        for (int i = 1; i <= size; i++) {
             Random r = new Random();
             int randNum = Math.abs(r.nextInt() % 10000);
             User user = new User();
@@ -114,6 +114,27 @@ public class UserController {
         log.error("res: " + res);
         long end = System.currentTimeMillis();
         log.error("time: " + (end - start));
+    }
+
+    @GetMapping("CompletableFuture")
+    public void completableFuture() throws ExecutionException, InterruptedException {
+        CompletableFuture<String> completableFuture = new CompletableFuture<>();
+        completableFuture.complete("done");
+        String result = completableFuture.get();
+        log.error(result);
+
+        //runAsync() 无返回值
+        CompletableFuture.runAsync(()->{
+            try {
+                TimeUnit.SECONDS.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            log.error("I'll run in a separate thread than the main thread.");
+        });
+
+        //supplyAsync() 运行一个异步任务并且返回结果
+        CompletableFuture.supplyAsync()
     }
 
 }
