@@ -5,6 +5,7 @@ import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.*;
+import java.util.function.BiConsumer;
+import java.util.function.Function;
 
 @RequestMapping("/user")
 @RestController
@@ -33,7 +36,7 @@ public class UserController {
      */
     @GetMapping("/mul")
     public void mulTest() {
-         userService.multiThreadId(1);
+        userService.multiThreadId(1);
     }
 
     /**
@@ -56,6 +59,7 @@ public class UserController {
 
     /**
      * 多个异步线程全部结束才继续执行
+     *
      * @throws Exception
      */
     @GetMapping("/mulTask")
@@ -64,18 +68,18 @@ public class UserController {
         Future<String> task1 = userService.doTask1();
         Future<String> task2 = userService.doTask2();
         Future<String> task3 = userService.doTask3();
-       while (true){
-           if(task1.isDone() && task2.isDone() && task3.isDone()){
-               log.error("all done");
-               break;
-           }
-       }
+        while (true) {
+            if (task1.isDone() && task2.isDone() && task3.isDone()) {
+                log.error("all done");
+                break;
+            }
+        }
         long end = System.currentTimeMillis();
-        log.error("3个任务总耗时: "+(end-start));
+        log.error("3个任务总耗时: " + (end - start));
     }
 
     @GetMapping("random")
-    @Transactional
+    @Transactional(rollbackFor=Exception.class)
     public void random() {
         long start = System.currentTimeMillis();
         int size = 1000;
@@ -115,26 +119,4 @@ public class UserController {
         long end = System.currentTimeMillis();
         log.error("time: " + (end - start));
     }
-
-    @GetMapping("CompletableFuture")
-    public void completableFuture() throws ExecutionException, InterruptedException {
-        CompletableFuture<String> completableFuture = new CompletableFuture<>();
-        completableFuture.complete("done");
-        String result = completableFuture.get();
-        log.error(result);
-
-        //runAsync() 无返回值
-        CompletableFuture.runAsync(()->{
-            try {
-                TimeUnit.SECONDS.sleep(1);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            log.error("I'll run in a separate thread than the main thread.");
-        });
-
-        //supplyAsync() 运行一个异步任务并且返回结果
-        CompletableFuture.supplyAsync()
-    }
-
 }
