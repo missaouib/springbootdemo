@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import com.example.demo.rocketmq.ProducerHook;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
@@ -12,20 +13,26 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MQProducerConfiguration {
     @Value("${rocketmq.producer.groupName}")
-    private String             groupName;
+    private String groupName;
 
     @Value("${rocketmq.producer.namesrvAddr}")
-    private String             namesrvAddr;
+    private String namesrvAddr;
 
     @Value("${rocketmq.producer.maxMessageSize}")
-    private Integer            maxMessageSize;
+    private Integer maxMessageSize;
 
     @Value("${rocketmq.producer.sendMsgTimeout}")
-    private Integer            sendMsgTimeout;
+    private Integer sendMsgTimeout;
 
     @Value("${rocketmq.producer.retryTimesWhenSendFailed}")
-    private Integer            retryTimesWhenSendFailed;
+    private Integer retryTimesWhenSendFailed;
 
+    /**
+     * @ConditionalOnMissingBean作用：判断当前需要注入Spring容器中的bean的实现类是否已经含有，有的话不注入，没有就注入
+     * @ConditionalOnBean作用：判断当前需要注册的bean的实现类否被spring管理，如果被管理则注入，反之不注入
+     * @return
+     * @throws RuntimeException
+     */
     @Bean
     @ConditionalOnMissingBean
     public DefaultMQProducer defaultMQProducer() throws RuntimeException {
@@ -40,6 +47,7 @@ public class MQProducerConfiguration {
         producer.setSendMsgTimeout(this.sendMsgTimeout);
         //如果发送消息失败，设置重试次数，默认为 2 次
         producer.setRetryTimesWhenSendFailed(this.retryTimesWhenSendFailed);
+        producer.getDefaultMQProducerImpl().registerSendMessageHook(new ProducerHook());
         try {
             producer.start();
             log.info("producer is started. groupName:{}, namesrvAddr: {}", groupName, namesrvAddr);

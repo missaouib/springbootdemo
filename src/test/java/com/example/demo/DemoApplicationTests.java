@@ -69,13 +69,6 @@ class DemoApplicationTests {
     }
 
     @Test
-    public void test3(){
-        for (int i = 0; i < 10; i++) {
-            kafkaSender.send();
-        }
-    }
-
-    @Test
     public void test4(){
         userService.multiThread();
     }

@@ -298,7 +298,7 @@ public class FutuerControler {
      * 功能:当CompletableFuture的计算结果完成，或者抛出异常的时候，可以通过handle方法对结果进行处理
      */
     @GetMapping("/handle")
-    public void handle(){
+    public void handle() {
         //先执行exceptionally，后执行handle
         CompletableFuture<String> future = CompletableFuture.supplyAsync(() -> "执行结果：" + (10 / 0))
                 .thenApply(s -> "apply result:" + s)
@@ -307,9 +307,9 @@ public class FutuerControler {
                     return "futureA result: 100";
                 })
                 .handle((s, e) -> {
-                    if(e == null) {
+                    if (e == null) {
                         System.out.println(s);//futureA result: 100
-                    } else{
+                    } else {
                         System.out.println(e.getMessage());//未执行
                     }
                     return "handle result:" + (s == null ? "500" : s);
@@ -343,49 +343,49 @@ public class FutuerControler {
 
     /**
      * allOf:当所有的CompletableFuture都执行完后执行计算
-     *
+     * <p>
      * 　　anyOf:最快的那个CompletableFuture执行完之后执行计算
      */
     @GetMapping("/allOf")
-    public void allOf(){
+    public void allOf() {
         ExecutorService executorService = Executors.newFixedThreadPool(4);
 
         long start = System.currentTimeMillis();
         CompletableFuture<String> futureA = CompletableFuture.supplyAsync(() -> {
             try {
-                Thread.sleep(1000 + RandomUtils.nextInt(0,1000));
+                Thread.sleep(1000 + RandomUtils.nextInt(0, 1000));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             return "商品详情";
-        },executorService);
+        }, executorService);
 
         CompletableFuture<String> futureB = CompletableFuture.supplyAsync(() -> {
             try {
-                Thread.sleep(1000 + RandomUtils.nextInt(0,1000));
+                Thread.sleep(1000 + RandomUtils.nextInt(0, 1000));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             return "卖家信息";
-        },executorService);
+        }, executorService);
 
         CompletableFuture<String> futureC = CompletableFuture.supplyAsync(() -> {
             try {
-                Thread.sleep(1000 + RandomUtils.nextInt(0,1000));
+                Thread.sleep(1000 + RandomUtils.nextInt(0, 1000));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             return "库存信息";
-        },executorService);
+        }, executorService);
 
         CompletableFuture<String> futureD = CompletableFuture.supplyAsync(() -> {
             try {
-                Thread.sleep(1000 + RandomUtils.nextInt(0,1000));
+                Thread.sleep(1000 + RandomUtils.nextInt(0, 1000));
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
             return "订单信息";
-        },executorService);
+        }, executorService);
 
         CompletableFuture<Void> allFuture = CompletableFuture.allOf(futureA, futureB, futureC, futureD);
         allFuture.join();

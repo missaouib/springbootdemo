@@ -17,8 +17,8 @@ public class EventAccountsController {
     private ApplicationEventPublisher publisher;
 
     @GetMapping("/create")
-    @Transactional
-    public void createUser(){
-        publisher.publishEvent(new UserCreatedEvent(this,new UserEventData(new Date())));
+    @Transactional(rollbackFor = Exception.class)
+    public void createUser() {
+        publisher.publishEvent(new UserCreatedEvent(this, new UserEventData(new Date())));
     }
 }
