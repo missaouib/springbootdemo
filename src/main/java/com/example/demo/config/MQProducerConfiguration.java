@@ -47,7 +47,7 @@ public class MQProducerConfiguration {
         producer.setSendMsgTimeout(this.sendMsgTimeout);
         //如果发送消息失败，设置重试次数，默认为 2 次
         producer.setRetryTimesWhenSendFailed(this.retryTimesWhenSendFailed);
-        producer.getDefaultMQProducerImpl().registerSendMessageHook(new ProducerHook());
+//        producer.getDefaultMQProducerImpl().registerSendMessageHook(new ProducerHook());
         try {
             producer.start();
             log.info("producer is started. groupName:{}, namesrvAddr: {}", groupName, namesrvAddr);

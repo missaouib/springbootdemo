@@ -1,9 +1,9 @@
 package com.example.demo.config;
 
-import com.example.demo.rocketmq.ConsumerHook;
 import com.example.demo.rocketmq.MessageListenerHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
+import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,31 +30,35 @@ public class MQConsumerConfiguration {
     private int consumeMessageBatchMaxSize;
 
     @Autowired
-    private MessageListenerHandler mqMessageListenerProcessor;
+    private MessageListenerHandler messageListenerHandler;
 
     @Bean
     @ConditionalOnMissingBean
-    public DefaultMQPushConsumer defaultMQPushConsumer() throws RuntimeException {
+    public DefaultMQPushConsumer defaultMQPushConsumer() throws RuntimeException, MQClientException {
 
         DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(groupName);
         consumer.setNamesrvAddr(namesrvAddr);
         consumer.setConsumeThreadMin(consumeThreadMin);
         consumer.setConsumeThreadMax(consumeThreadMax);
-        consumer.registerMessageListener(mqMessageListenerProcessor);
-
+        // 设置该消费者订阅的主题和tag，如果是订阅该主题下的所有tag，使用*；
+        consumer.subscribe(topics, "*");
+        // consumer.subscribe(topics, "TagA || Tag B || Tage C");
+        // 设置每次消息拉取的时间间隔，单位毫秒
+//        consumer.setPullInterval(1000);
+        //批量拉取消息的数量，默认是32
+        //consumer.setPullBatchSize(30);
+        consumer.registerMessageListener(messageListenerHandler);
         // 设置 consumer 第一次启动是从队列头部开始消费还是队列尾部开始消费
         // 如果非第一次启动，那么按照上次消费的位置继续消费
         consumer.setConsumeFromWhere(ConsumeFromWhere.CONSUME_FROM_FIRST_OFFSET);
         // 设置消费模型，集群还是广播，默认为集群
         consumer.setMessageModel(MessageModel.CLUSTERING);
-        // 设置一次消费消息的条数，默认为 1 条
+        // 设置批量消费的最大值，默认为 1 条
         consumer.setConsumeMessageBatchMaxSize(consumeMessageBatchMaxSize);
         //注册钩子
-        consumer.getDefaultMQPushConsumerImpl().registerConsumeMessageHook(new ConsumerHook());
+//        consumer.getDefaultMQPushConsumerImpl().registerConsumeMessageHook(new ConsumerHook());
 
         try {
-            // 设置该消费者订阅的主题和tag，如果是订阅该主题下的所有tag，使用*；
-            consumer.subscribe(topics, "*");
             // 启动消费
             consumer.start();
             log.info("consumer is started. groupName:{}, topics:{}, namesrvAddr:{}", groupName, topics, namesrvAddr);
