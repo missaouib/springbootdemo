@@ -29,6 +29,38 @@ public class UserController {
         return userService.getList();
     }
 
+    @GetMapping("insert")
+    public void insert(){
+        User user = new User();
+        user.setUsername("hi");
+        user.setPassword("passwd");
+        int res = userService.insert(user);
+        log.error("res: {}",res);
+        log.error("主键: {}",user.getId());
+    }
+
+    /**
+     * 测试mybatis批量插入
+     */
+    @GetMapping("batchInsert")
+    public void batch() {
+        long start = System.currentTimeMillis();
+        ArrayList<User> list = new ArrayList<>();
+        int size = 3;
+        for (int i = 1; i <= size; i++) {
+            Random r = new Random();
+            int randNum = Math.abs(r.nextInt() % 10000);
+            User user = new User();
+            user.setPassword("000" + i + randNum);
+            user.setUsername("wang" + i + randNum);
+            list.add(user);
+        }
+        int res = userService.batchInsert(list);
+        log.error("res: " + res);
+        list.stream().map(User::getId).forEach(System.out::println);
+        long end = System.currentTimeMillis();
+        log.error("time: " + (end - start));
+    }
 
     /**
      * 测试异步 无返回值 异常
@@ -93,28 +125,6 @@ public class UserController {
 //                int a = 1/0;
 //            }
         }
-        long end = System.currentTimeMillis();
-        log.error("time: " + (end - start));
-    }
-
-    /**
-     * 测试mybatis批量插入
-     */
-    @GetMapping("batch")
-    public void batch() {
-        long start = System.currentTimeMillis();
-        ArrayList<User> list = new ArrayList<>();
-        int size = 1000;
-        for (int i = 1; i <= size; i++) {
-            Random r = new Random();
-            int randNum = Math.abs(r.nextInt() % 10000);
-            User user = new User();
-            user.setPassword("000" + i + randNum);
-            user.setUsername("wang" + i + randNum);
-            list.add(user);
-        }
-        int res = userService.batchInsert(list);
-        log.error("res: " + res);
         long end = System.currentTimeMillis();
         log.error("time: " + (end - start));
     }

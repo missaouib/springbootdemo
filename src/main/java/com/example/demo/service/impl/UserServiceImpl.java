@@ -78,6 +78,7 @@ public class UserServiceImpl implements UserService {
         return new AsyncResult<>(user);
     }
 
+    @Override
     @Async("taskExecutorA")
     public Future<String> doTask1() throws Exception {
         log.error("开始做任务1");
@@ -89,6 +90,7 @@ public class UserServiceImpl implements UserService {
         return new AsyncResult<>("任务1完成");
     }
 
+    @Override
     @Async("taskExecutorA")
     public Future<String> doTask2() throws Exception {
         log.error("开始做任务2");
@@ -100,6 +102,7 @@ public class UserServiceImpl implements UserService {
         return new AsyncResult<>("任务2完成");
     }
 
+    @Override
     @Async("taskExecutorA")
     public Future<String> doTask3() throws Exception {
         log.error("开始做任务3");

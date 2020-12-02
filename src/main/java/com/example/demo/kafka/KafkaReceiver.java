@@ -7,11 +7,14 @@ import org.springframework.stereotype.Component;
 
 import java.util.Optional;
 
+/**
+ * 项目关闭 kafka 只需注释掉监听器注解即可
+ */
 @Component
 @Slf4j
 public class KafkaReceiver {
 
-    @KafkaListener(topics = {"malu"})
+//    @KafkaListener(topics = {"malu"})
     public void listen(ConsumerRecord<?, ?> record) {
 
         Optional<?> kafkaMessage = Optional.ofNullable(record.value());
