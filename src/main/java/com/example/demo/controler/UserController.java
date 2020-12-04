@@ -9,7 +9,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
@@ -30,26 +34,29 @@ public class UserController {
     }
 
     @GetMapping("/findbyid")
-    public void findById(){
+    public void findById() {
         User user = userService.findById(2);
         System.out.println(user);
     }
 
     @GetMapping("insert")
-    public void insert(){
+    public void insert() throws ParseException {
         User user = new User();
         user.setUsername("hi");
         user.setPassword("passwd");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        user.setCreateTime(simpleDateFormat.parse("2011-1-1 1:1:11"));
+        user.setUpdateTime(simpleDateFormat.parse("2011-1-11 1:1:11"));
         int res = userService.insert(user);
-        log.error("res: {}",res);
-        log.error("主键: {}",user.getId());
+        log.error("res: {}", res);
+        log.error("主键: {}", user.getId());
     }
 
     /**
      * 测试mybatis批量插入
      */
     @GetMapping("batchInsert")
-    public void batch() {
+    public void batch() throws ParseException {
         long start = System.currentTimeMillis();
         ArrayList<User> list = new ArrayList<>();
         int size = 3;
@@ -59,6 +66,9 @@ public class UserController {
             User user = new User();
             user.setPassword("000" + i + randNum);
             user.setUsername("wang" + i + randNum);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            user.setCreateTime(simpleDateFormat.parse("2011-1-1 1:1:11"));
+            user.setUpdateTime(simpleDateFormat.parse("2011-1-11 1:1:11"));
             list.add(user);
         }
         int res = userService.batchInsert(list);

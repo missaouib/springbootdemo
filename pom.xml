@@ -18,7 +18,7 @@
         <java.version>11</java.version>
         <mysql-connector-java.version>8.0.22</mysql-connector-java.version>
         <mybatis-starter.version>2.1.2</mybatis-starter.version>
-        <mybatis-generator-core.version>1.3.3</mybatis-generator-core.version>
+        <mybatis-generator-core.version>1.4.0</mybatis-generator-core.version>
         <sharding-jdbc.version>4.0.0-RC1</sharding-jdbc.version>
         <redisson.version>3.13.6</redisson.version>
         <spring-kafka.version>2.5.7.RELEASE</spring-kafka.version>
