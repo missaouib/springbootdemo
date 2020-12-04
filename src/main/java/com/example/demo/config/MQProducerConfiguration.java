@@ -28,6 +28,7 @@ public class MQProducerConfiguration {
     private Integer retryTimesWhenSendFailed;
 
     /**
+     * 默认关闭 vip channel :只接收producer的消息，不接受consumer的拉取请求
      * @ConditionalOnMissingBean作用：判断当前需要注入Spring容器中的bean的实现类是否已经含有，有的话不注入，没有就注入
      * @ConditionalOnBean作用：判断当前需要注册的bean的实现类否被spring管理，如果被管理则注入，反之不注入
      * @return

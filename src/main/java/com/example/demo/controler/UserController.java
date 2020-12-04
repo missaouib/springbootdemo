@@ -29,6 +29,12 @@ public class UserController {
         return userService.getList();
     }
 
+    @GetMapping("/findbyid")
+    public void findById(){
+        User user = userService.findById(2);
+        System.out.println(user);
+    }
+
     @GetMapping("insert")
     public void insert(){
         User user = new User();
