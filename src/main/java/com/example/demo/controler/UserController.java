@@ -9,11 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ExecutionException;
@@ -25,8 +23,20 @@ import java.util.concurrent.TimeoutException;
 @RestController
 @Slf4j
 public class UserController {
+
+    /**
+     * 使用基于 constructor 注入，而不是基于 field 注入
+     */
+    private final UserService userService;
+
+    /**
+     * 如果一个bean只有一个构造器，就可以省略@Autowired
+     * @param userService
+     */
     @Autowired
-    private UserService userService;
+    public UserController(UserService userService) {
+        this.userService = userService;
+    }
 
     @GetMapping("/list")
     public List<User> getUserList() {
@@ -95,11 +105,7 @@ public class UserController {
         try {
             User user = future.get(7, TimeUnit.SECONDS);
             log.error(user.toString());
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-        } catch (TimeoutException e) {
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
             e.printStackTrace();
         }
     }

@@ -18,36 +18,46 @@ import java.util.List;
 @RequestMapping("/mq")
 @RestController
 @Slf4j
-public class MQControler {
-    private static String TOPIC = "DemoTopic";
-    private static String TAGS = "DemoTags";
-
-    private final DefaultMQProducer defaultMQProducer;
-
-    private final KafkaSender kafkaSender;
+public class MqControler {
+    private static final String TOPIC = "DemoTopic";
+    private static final String TAGS = "DemoTags";
 
     /**
-     * 使用基于 constructor 注入，而不是基于 field 注入
-     *
-     * @param defaultMQProducer
-     * @param kafkaSender
+     * 基于 field 注入
+     * 没有启动rocketmq服务端，故不加载 DefaultMQProducer
      */
+//    @Autowired
+//    private DefaultMQProducer defaultMQProducer;
+
     @Autowired
-    public MQControler(DefaultMQProducer defaultMQProducer, KafkaSender kafkaSender) {
-        this.defaultMQProducer = defaultMQProducer;
-        this.kafkaSender = kafkaSender;
-    }
+    private KafkaSender kafkaSender;
+
 
     @GetMapping("send")
     public String test() throws Throwable {
         Message msg = new Message(TOPIC, TAGS, ("Hello RocketMQ").getBytes(RemotingHelper.DEFAULT_CHARSET));
-//        List<Message> messages = new ArrayList<>();
-//        for (int i=0; i<7; i++) {
-//            messages.add(new Message(TOPIC, TAGS, ("Hello RocketMQ").getBytes(RemotingHelper.DEFAULT_CHARSET)));
-//        }
+
         // 调用客户端发送消息 同步
-        SendResult sendResult = defaultMQProducer.send(msg);
-        log.info("sendResult: {}.", sendResult);
+//        SendResult sendResult = defaultMQProducer.send(msg);
+//        log.info("sendResult: {}.", sendResult);
+        return "SUCCESS";
+    }
+
+    @GetMapping("sendBatch")
+    public String sendBatch() throws Throwable {
+        List<Message> messages = new ArrayList<>();
+        for (int i = 0; i < 7; i++) {
+            messages.add(new Message(TOPIC, TAGS, ("Hello RocketMQ").getBytes(RemotingHelper.DEFAULT_CHARSET)));
+        }
+        // 调用客户端发送消息 同步
+//        SendResult sendResult = defaultMQProducer.send(messages);
+//        log.info("sendResult: {}.", sendResult);
+        return "SUCCESS";
+    }
+
+    @GetMapping("sendAsync")
+    public String sendAsync() throws Throwable {
+        Message msg = new Message(TOPIC, TAGS, ("Hello RocketMQ").getBytes(RemotingHelper.DEFAULT_CHARSET));
         // 异步发送消息
 //        defaultMQProducer.send(msg, new SendCallback() {
 //            @Override
@@ -57,11 +67,12 @@ public class MQControler {
 //
 //            @Override
 //            public void onException(Throwable e) {
-//                log.info("发送失败 异常：{}",e);
+//                log.error("发送失败 异常：{}", e);
 //            }
 //        });
         return "SUCCESS";
     }
+
 
     @GetMapping("kafka")
     public void kafka() {
