@@ -94,5 +94,10 @@
             <!--是否使用实际列名,默认为false-->
             <!--<property name="useActualColumnNames" value="false" />-->
         </table>
+
+        <table tableName="cron" domainObjectName="Cron">
+            <!--是否使用实际列名,默认为false-->
+            <!--<property name="useActualColumnNames" value="false" />-->
+        </table>
     </context>
 </generatorConfiguration>
