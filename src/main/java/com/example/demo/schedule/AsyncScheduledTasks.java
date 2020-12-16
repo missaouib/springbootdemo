@@ -9,7 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
-//@Component
+@Component
 @Slf4j
 /**
  *  定时任务并行执行

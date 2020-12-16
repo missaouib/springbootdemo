@@ -18,6 +18,7 @@ public class KafkaSender {
     private KafkaTemplate<String, String> kafkaTemplate;
 
     private Gson gson = new GsonBuilder().create();
+    private String topic = "kafka-topic";
 
     //发送消息方法
     public void send() {
@@ -26,6 +27,6 @@ public class KafkaSender {
         message.setMsg(UUID.randomUUID().toString());
         message.setSendTime(new Date());
         log.info("+++++++++++++++++++++  message = {}", gson.toJson(message));
-        kafkaTemplate.send("malu", gson.toJson(message));
+        kafkaTemplate.send(topic, gson.toJson(message));
     }
 }

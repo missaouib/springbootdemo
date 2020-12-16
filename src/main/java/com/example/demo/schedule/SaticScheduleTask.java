@@ -2,6 +2,7 @@ package com.example.demo.schedule;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -11,7 +12,7 @@ import java.util.concurrent.TimeUnit;
  * 静态：基于注解
  * 基于注解@Scheduled默认为单线程，开启多个任务时，任务的执行时机会受上一个任务执行时间的影响。
  */
-//@Component
+@Component
 @Slf4j
 public class SaticScheduleTask {
 
