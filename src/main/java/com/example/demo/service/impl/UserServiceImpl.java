@@ -3,6 +3,7 @@ package com.example.demo.service.impl;
 import com.example.demo.dao.UserDao;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -46,6 +47,27 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findById(int id) {
         return userDao.findById(id);
+    }
+
+    @Override
+    public List<User> findAllByPageList1(int pageNum, int pageSize) {
+        return userDao.findAllByPageList1(pageNum,pageSize);
+    }
+
+    @Override
+    public List<User> findAllByPageList2(int pageNum, int pageSize) {
+        return userDao.findAllByPageList2(pageNum,pageSize);
+
+    }
+
+    @Override
+    public PageInfo<User> findAllByPagePageInfo1(int pageNum, int pageSize) {
+        return userDao.findAllByPagePageInfo1(pageNum,pageSize);
+    }
+
+    @Override
+    public PageInfo<User> findAllByPagePageInfo2(int pageNum, int pageSize) {
+        return userDao.findAllByPagePageInfo2(pageNum,pageSize);
     }
 
     @Override

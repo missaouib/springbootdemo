@@ -2,10 +2,12 @@ package com.example.demo.controler;
 
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
+import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -31,6 +33,7 @@ public class UserController {
 
     /**
      * 如果一个bean只有一个构造器，就可以省略@Autowired
+     *
      * @param userService
      */
     @Autowired
@@ -69,7 +72,7 @@ public class UserController {
     public void batch() throws ParseException {
         long start = System.currentTimeMillis();
         ArrayList<User> list = new ArrayList<>();
-        int size = 3;
+        int size = 30;
         for (int i = 1; i <= size; i++) {
             Random r = new Random();
             int randNum = Math.abs(r.nextInt() % 10000);
@@ -87,6 +90,39 @@ public class UserController {
         long end = System.currentTimeMillis();
         log.error("time: " + (end - start));
     }
+
+    @GetMapping("/pageList1/{pageNum}/{pageSize}")
+    public Object pageList1(@PathVariable int pageNum, @PathVariable int pageSize) {
+        List<User> list = userService.findAllByPageList1(pageNum, pageSize);
+        System.out.println(list);
+        return list;
+//        System.err.println(userService.findAllByPageList1(pageNum, pageSize));
+    }
+
+    @GetMapping("/pagePageInfo1/{pageNum}/{pageSize}")
+    public Object pagePageInfo1(@PathVariable int pageNum, @PathVariable int pageSize) {
+        PageInfo<User> pageInfo = userService.findAllByPagePageInfo1(pageNum, pageSize);
+        System.out.println(pageInfo);
+        return pageInfo;
+//        System.err.println(userService.findAllByPageList1(pageNum, pageSize));
+    }
+
+    @GetMapping("/pageList2/{pageNum}/{pageSize}")
+    public Object pageList2(@PathVariable int pageNum, @PathVariable int pageSize) {
+        List<User> list = userService.findAllByPageList2(pageNum, pageSize);
+        System.out.println(list);
+        return list;
+//        System.err.println(userService.findAllByPageList1(pageNum, pageSize));
+    }
+
+    @GetMapping("/pagePageInfo2/{pageNum}/{pageSize}")
+    public Object pagePageInfo2(@PathVariable int pageNum, @PathVariable int pageSize) {
+        PageInfo<User> pageInfo = userService.findAllByPagePageInfo2(pageNum, pageSize);
+        System.out.println(pageInfo);
+        return pageInfo;
+//        System.err.println(userService.findAllByPageList1(pageNum, pageSize));
+    }
+
 
     /**
      * 测试异步 无返回值 异常
