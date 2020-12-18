@@ -10,8 +10,7 @@ import com.example.demo.mapstruct.PersonMapper;
 import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
+import org.redisson.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -66,6 +65,31 @@ class DemoApplicationTests {
             // 无论如何, 最后都要解锁
             disLock.unlock();
         }
+    }
+
+
+    @Test
+    public void test3(){
+        RMap map = redissonClient.getMap("mymap");
+        map.put("a","b");
+        System.out.println(map.get("a"));
+        map.put("c","d");
+        System.out.println(map.get("a"));
+        RKeys keys = redissonClient.getKeys();
+        System.out.println(keys.toString());
+        Iterable<String> allKeys = keys.getKeys();
+        allKeys.forEach(System.out::println);
+        String randomKey = keys.randomKey();
+        System.out.println(randomKey);
+        long keysAmount = keys.count();
+        System.out.println(keysAmount);
+        System.out.println("----------");
+        RHyperLogLog<Integer> log = redissonClient.getHyperLogLog("log");
+        log.add(1);
+        log.add(2);
+        log.add(3);
+        log.add(4);
+        log.count();
     }
 
     @Test

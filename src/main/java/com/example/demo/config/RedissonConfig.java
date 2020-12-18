@@ -11,7 +11,7 @@ import java.io.IOException;
 @Configuration
 public class RedissonConfig {
 
-    @Bean
+    @Bean(destroyMethod="shutdown")
     public RedissonClient redissonClient() throws IOException {
 //        Config config = Config.fromYAML(RedissonConfig.class.getClassLoader().getResource("redisson-cluster.yaml"));
         Config config = Config.fromYAML(RedissonConfig.class.getClassLoader().getResource("redisson-single.yaml"));
