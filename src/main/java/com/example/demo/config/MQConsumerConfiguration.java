@@ -1,6 +1,7 @@
 package com.example.demo.config;
 
 import com.example.demo.rocketmq.MessageListenerHandler;
+import com.example.demo.rocketmq.OrderTransactionListener;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.exception.MQClientException;
@@ -13,7 +14,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Slf4j
-//@Configuration
+@Configuration
 public class MQConsumerConfiguration {
     @Value("${rocketmq.consumer.namesrvAddr}")
     private String namesrvAddr;
@@ -31,6 +32,9 @@ public class MQConsumerConfiguration {
 
     @Autowired
     private MessageListenerHandler messageListenerHandler;
+
+    @Autowired
+    private OrderTransactionListener orderTransactionListener;
 
     @Bean
     @ConditionalOnMissingBean
@@ -55,6 +59,8 @@ public class MQConsumerConfiguration {
         consumer.setMessageModel(MessageModel.CLUSTERING);
         // 设置批量消费的最大值，默认为 1 条
         consumer.setConsumeMessageBatchMaxSize(consumeMessageBatchMaxSize);
+        //设置消息重试最大次数 默认16次
+        consumer.setMaxReconsumeTimes(3);
         //注册钩子
 //        consumer.getDefaultMQPushConsumerImpl().registerConsumeMessageHook(new ConsumerHook());
 

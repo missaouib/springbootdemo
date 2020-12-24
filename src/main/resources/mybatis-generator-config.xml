@@ -14,6 +14,7 @@
     -->
     <context id="myContext" targetRuntime="MyBatis3" defaultModelType="flat">
 
+        <property name="autoDelimitKeywords" value="true"/>
         <property name="beginningDelimiter" value="`"/>
         <property name="endingDelimiter" value="`"/>
         <property name="javaFileEncoding" value="UTF-8"/>
@@ -25,6 +26,10 @@
         <!-- 这个插件给生成的Java模型对象增加了equals和hashCode方法 -->
         <!--<plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>-->
         <plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin"/>
+        <!-- 这个插件用来在XXXExample类中生成大小写敏感的LIKE方法
+（插件本身用处不大，但是我们可以通过这个插件学习给XXXExample类添加额外的方法）
+-->
+<!--        <plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin"/>-->
 
 
         <!-- 注释 -->
@@ -90,21 +95,33 @@
              domainObjectName 是要生成的实体类名(可以不指定，默认按帕斯卡命名法将表名转换成类名)
              enableXXXByExample 默认为 true， 为 true 会生成一个对应Example帮助类，帮助你进行条件查询，不想要可以设为false
              -->
-<!--        <table tableName="user" domainObjectName="User">-->
-<!--                <generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
-<!--            &lt;!&ndash;是否使用实际列名,默认为false&ndash;&gt;-->
-<!--            &lt;!&ndash;<property name="useActualColumnNames" value="false" />&ndash;&gt;-->
-<!--        </table>-->
+        <!--        <table tableName="user" domainObjectName="User">-->
+        <!--                <generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--            &lt;!&ndash;是否使用实际列名,默认为false&ndash;&gt;-->
+        <!--            &lt;!&ndash;<property name="useActualColumnNames" value="false" />&ndash;&gt;-->
+        <!--        </table>-->
 
-<!--        <table tableName="cron" domainObjectName="Cron">-->
-<!--            &lt;!&ndash;是否使用实际列名,默认为false&ndash;&gt;-->
-<!--            &lt;!&ndash;<property name="useActualColumnNames" value="false" />&ndash;&gt;-->
-<!--        </table>-->
+        <!--        <table tableName="cron" domainObjectName="Cron">-->
+        <!--            &lt;!&ndash;是否使用实际列名,默认为false&ndash;&gt;-->
+        <!--            &lt;!&ndash;<property name="useActualColumnNames" value="false" />&ndash;&gt;-->
+        <!--        </table>-->
 
-        <table tableName="book" domainObjectName="Book">
-<!--            <generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <!--        <table tableName="points" domainObjectName="Points">-->
+        <!--&lt;!&ndash;            <generatedKey column="id" sqlStatement="Mysql" identity="true" />&ndash;&gt;-->
+        <!--            &lt;!&ndash;是否使用实际列名,默认为false&ndash;&gt;-->
+        <!--            &lt;!&ndash;<property name="useActualColumnNames" value="false" />&ndash;&gt;-->
+        <!--        </table>-->
+        <!--        <table tableName="transaction_log" domainObjectName="TransactionLog">-->
+        <!--            &lt;!&ndash;            <generatedKey column="id" sqlStatement="Mysql" identity="true" />&ndash;&gt;-->
+        <!--            &lt;!&ndash;是否使用实际列名,默认为false&ndash;&gt;-->
+        <!--            &lt;!&ndash;<property name="useActualColumnNames" value="false" />&ndash;&gt;-->
+        <!--        </table>-->
+
+        <table tableName="order" domainObjectName="Order" delimitIdentifiers="true">
+            <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
             <!--是否使用实际列名,默认为false-->
             <!--<property name="useActualColumnNames" value="false" />-->
         </table>
+
     </context>
 </generatorConfiguration>
