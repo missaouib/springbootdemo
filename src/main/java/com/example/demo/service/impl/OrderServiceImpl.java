@@ -24,8 +24,8 @@ public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
     @Autowired
     TransactionLogDao transactionLogDao;
-    @Autowired
-    TransactionMQProducer producer;
+//    @Autowired
+//    TransactionMQProducer producer;
 
     SnowFlake snowflake = new SnowFlake(1,1);
     @Override
@@ -74,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
         Message message = new Message();
         message.setBody(JSON.toJSONString(order).getBytes("utf-8"));
         message.setTopic("order");
-        producer.sendMessageInTransaction(message,"order");
+//        producer.sendMessageInTransaction(message,"order");
     }
 
 }

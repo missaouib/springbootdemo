@@ -40,6 +40,8 @@ public class AsyncConfig implements AsyncConfigurer {
     private static final int MAX_POOL_SIZE = 10;
     private static final int QUEUE_CAPACITY = 100;
     private static final int AWAIT_TIME = 60;
+    private static final int KEEP_ALIVE = 60;
+
 
     /**
      * 通过注解 @Async("taskExecutorA") 选择不同的线程池
@@ -88,6 +90,22 @@ public class AsyncConfig implements AsyncConfigurer {
         executor.setWaitForTasksToCompleteOnShutdown(true);
 //        executor.setThreadNamePrefix("ThreadPoolTaskExecutor-");
 //        executor.initialize();
+        return executor;
+    }
+
+    @Bean("canal")
+    public Executor taskExecutor() {
+        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
+        // 核心线程数
+        executor.setCorePoolSize(CORE_POOL_SIZE);
+        // 最大线程数
+        executor.setMaxPoolSize(MAX_POOL_SIZE);
+        // 队列大小
+        executor.setQueueCapacity(QUEUE_CAPACITY);
+        executor.setKeepAliveSeconds(KEEP_ALIVE);
+        executor.setThreadNamePrefix("canal-");
+        // CallerRunsPolicy 重试添加当前的任务，他会自动重复调用execute()方法
+        executor.setRejectedExecutionHandler(new ThreadPoolExecutor.CallerRunsPolicy());
         return executor;
     }
 

@@ -26,6 +26,8 @@
         <!-- 这个插件给生成的Java模型对象增加了equals和hashCode方法 -->
         <!--<plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin"/>-->
         <plugin type="org.mybatis.generator.plugins.MapperAnnotationPlugin"/>
+        <!--覆盖生成XML文件-->
+        <plugin type="org.mybatis.generator.plugins.UnmergeableXmlMappersPlugin" />
         <!-- 这个插件用来在XXXExample类中生成大小写敏感的LIKE方法
 （插件本身用处不大，但是我们可以通过这个插件学习给XXXExample类添加额外的方法）
 -->

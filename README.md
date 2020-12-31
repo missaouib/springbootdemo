@@ -6,6 +6,7 @@ KafkaReceiver.java 中注释 `@KafkaListener`
 
 1. MQ*figuration.java 中注释 `@Configuration`
 2. MqControler.java 中注释 `defaultMQProducer`的使用
+3. OrderServiceImpl.java 注释 `producer` 的自动注入
 
 ## 关闭springboot scheduler
 

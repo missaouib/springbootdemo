@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  * 从数据库中取得任务执行时间，可以达到实时生效，不需要重启应用
  * 注意： 如果在数据库修改时格式出现错误，则定时任务会停止，即使重新修改正确；此时只能重新启动项目才能恢复。
  */
-@Configuration //主要用于标记配置类，兼备Component的效果。
+//@Configuration //主要用于标记配置类，兼备Component的效果。
 public class DynamicScheduleTask implements SchedulingConfigurer {
 
     @Autowired

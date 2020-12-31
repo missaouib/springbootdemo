@@ -21,7 +21,7 @@ public class AsyncScheduledTasks {
      * fixedDelay：固定延迟执行。距离上一次调用成功后2秒才执。
      */
     @Async("taskExecutorB")
-    @Scheduled(fixedDelay = 2000)
+//    @Scheduled(fixedDelay = 2000)
     public void reportCurrentTimeWithFixedDelay() {
         try {
             TimeUnit.SECONDS.sleep(3);

@@ -18,7 +18,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
-@Configuration
+//@Configuration
 public class MQTransactionProducerConfiguration {
     /**
      * 要求唯一

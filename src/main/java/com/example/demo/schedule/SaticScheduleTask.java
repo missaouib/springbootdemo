@@ -21,7 +21,7 @@ public class SaticScheduleTask {
     /**
      * fixedRate：固定速率执行。每5秒执行一次。
      */
-    @Scheduled(fixedRate = 5000)
+//    @Scheduled(fixedRate = 5000)
     public void reportCurrentTimeWithFixedRate() {
         log.info("Fixed Rate Task: time is {} Current Thread: {}", dateFormat.format(new Date()), Thread.currentThread().getName());
     }
@@ -29,7 +29,7 @@ public class SaticScheduleTask {
     /**
      * fixedDelay：固定延迟执行。距离上一次调用成功后2秒才执。
      */
-    @Scheduled(fixedDelay = 2000)
+//    @Scheduled(fixedDelay = 2000)
     public void reportCurrentTimeWithFixedDelay() {
         try {
             TimeUnit.SECONDS.sleep(3);
@@ -42,7 +42,7 @@ public class SaticScheduleTask {
     /**
      * initialDelay:初始延迟。任务的第一次执行将延迟5秒，然后将以5秒的固定间隔执行。
      */
-    @Scheduled(initialDelay = 2000, fixedRate = 5000)
+//    @Scheduled(initialDelay = 2000, fixedRate = 5000)
     public void reportCurrentTimeWithInitialDelay() {
         log.info("Fixed Rate Task with Initial Delay: time is {} Current Thread: {}", dateFormat.format(new Date()), Thread.currentThread().getName());
     }
@@ -50,7 +50,7 @@ public class SaticScheduleTask {
     /**
      * cron：使用Cron表达式。　每分钟的1，2秒运行
      */
-    @Scheduled(cron = "1-2 * * * * ? ")
+//    @Scheduled(cron = "1-2 * * * * ? ")
     public void reportCurrentTimeWithCronExpression() {
         log.info("Cron Expression: time is {} Current Thread: {}", dateFormat.format(new Date()), Thread.currentThread().getName());
     }
