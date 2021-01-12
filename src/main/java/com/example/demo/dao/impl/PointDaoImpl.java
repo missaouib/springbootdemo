@@ -2,7 +2,7 @@ package com.example.demo.dao.impl;
 
 import com.example.demo.dao.PointDao;
 import com.example.demo.entity.Points;
-import com.example.demo.mapper.PointsMapper;
+import com.example.demo.mapper.primary.PointsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

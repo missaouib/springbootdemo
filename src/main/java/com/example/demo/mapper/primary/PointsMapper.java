@@ -1,4 +1,4 @@
-package com.example.demo.mapper;
+package com.example.demo.mapper.primary;
 
 import com.example.demo.entity.Points;
 import com.example.demo.entity.PointsExample;

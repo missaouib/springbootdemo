@@ -2,7 +2,7 @@ package com.example.demo.service.impl;
 
 import com.example.demo.entity.Order;
 import com.example.demo.entity.Points;
-import com.example.demo.mapper.PointsMapper;
+import com.example.demo.mapper.primary.PointsMapper;
 import com.example.demo.service.PointsService;
 import com.example.demo.util.SnowFlake;
 import lombok.extern.slf4j.Slf4j;

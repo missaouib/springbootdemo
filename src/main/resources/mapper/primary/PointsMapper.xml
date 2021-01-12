@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.mapper.TransactionLogMapper">
-  <resultMap id="BaseResultMap" type="com.example.demo.entity.TransactionLog">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="business" jdbcType="VARCHAR" property="business" />
-    <result column="foreign_key" jdbcType="VARCHAR" property="foreignKey" />
+<mapper namespace="com.example.demo.mapper.primary.PointsMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.entity.Points">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="user_id" jdbcType="BIGINT" property="userId" />
+    <result column="order_no" jdbcType="BIGINT" property="orderNo" />
+    <result column="points" jdbcType="INTEGER" property="points" />
+    <result column="remarks" jdbcType="VARCHAR" property="remarks" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -65,15 +67,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    id, business, foreign_key
+    id, user_id, order_no, points, remarks
   </sql>
-  <select id="selectByExample" parameterType="com.example.demo.entity.TransactionLogExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.example.demo.entity.PointsExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from transaction_log
+    from points
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -81,70 +83,88 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from transaction_log
-    where id = #{id,jdbcType=VARCHAR}
+    from points
+    where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from transaction_log
-    where id = #{id,jdbcType=VARCHAR}
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from points
+    where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.example.demo.entity.TransactionLogExample">
-    delete from transaction_log
+  <delete id="deleteByExample" parameterType="com.example.demo.entity.PointsExample">
+    delete from points
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.example.demo.entity.TransactionLog">
-    insert into transaction_log (id, business, foreign_key
-      )
-    values (#{id,jdbcType=VARCHAR}, #{business,jdbcType=VARCHAR}, #{foreignKey,jdbcType=VARCHAR}
-      )
+  <insert id="insert" parameterType="com.example.demo.entity.Points">
+    insert into points (id, user_id, order_no, 
+      points, remarks)
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{orderNo,jdbcType=BIGINT}, 
+      #{points,jdbcType=INTEGER}, #{remarks,jdbcType=VARCHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.example.demo.entity.TransactionLog">
-    insert into transaction_log
+  <insert id="insertSelective" parameterType="com.example.demo.entity.Points">
+    insert into points
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         id,
       </if>
-      <if test="business != null">
-        business,
+      <if test="userId != null">
+        user_id,
       </if>
-      <if test="foreignKey != null">
-        foreign_key,
+      <if test="orderNo != null">
+        order_no,
+      </if>
+      <if test="points != null">
+        points,
+      </if>
+      <if test="remarks != null">
+        remarks,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
-        #{id,jdbcType=VARCHAR},
+        #{id,jdbcType=BIGINT},
       </if>
-      <if test="business != null">
-        #{business,jdbcType=VARCHAR},
+      <if test="userId != null">
+        #{userId,jdbcType=BIGINT},
       </if>
-      <if test="foreignKey != null">
-        #{foreignKey,jdbcType=VARCHAR},
+      <if test="orderNo != null">
+        #{orderNo,jdbcType=BIGINT},
+      </if>
+      <if test="points != null">
+        #{points,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null">
+        #{remarks,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.example.demo.entity.TransactionLogExample" resultType="java.lang.Long">
-    select count(*) from transaction_log
+  <select id="countByExample" parameterType="com.example.demo.entity.PointsExample" resultType="java.lang.Long">
+    select count(*) from points
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update transaction_log
+    update points
     <set>
       <if test="record.id != null">
-        id = #{record.id,jdbcType=VARCHAR},
+        id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.business != null">
-        business = #{record.business,jdbcType=VARCHAR},
+      <if test="record.userId != null">
+        user_id = #{record.userId,jdbcType=BIGINT},
       </if>
-      <if test="record.foreignKey != null">
-        foreign_key = #{record.foreignKey,jdbcType=VARCHAR},
+      <if test="record.orderNo != null">
+        order_no = #{record.orderNo,jdbcType=BIGINT},
+      </if>
+      <if test="record.points != null">
+        points = #{record.points,jdbcType=INTEGER},
+      </if>
+      <if test="record.remarks != null">
+        remarks = #{record.remarks,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -152,30 +172,40 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update transaction_log
-    set id = #{record.id,jdbcType=VARCHAR},
-      business = #{record.business,jdbcType=VARCHAR},
-      foreign_key = #{record.foreignKey,jdbcType=VARCHAR}
+    update points
+    set id = #{record.id,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      order_no = #{record.orderNo,jdbcType=BIGINT},
+      points = #{record.points,jdbcType=INTEGER},
+      remarks = #{record.remarks,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.entity.TransactionLog">
-    update transaction_log
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.entity.Points">
+    update points
     <set>
-      <if test="business != null">
-        business = #{business,jdbcType=VARCHAR},
+      <if test="userId != null">
+        user_id = #{userId,jdbcType=BIGINT},
       </if>
-      <if test="foreignKey != null">
-        foreign_key = #{foreignKey,jdbcType=VARCHAR},
+      <if test="orderNo != null">
+        order_no = #{orderNo,jdbcType=BIGINT},
+      </if>
+      <if test="points != null">
+        points = #{points,jdbcType=INTEGER},
+      </if>
+      <if test="remarks != null">
+        remarks = #{remarks,jdbcType=VARCHAR},
       </if>
     </set>
-    where id = #{id,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.TransactionLog">
-    update transaction_log
-    set business = #{business,jdbcType=VARCHAR},
-      foreign_key = #{foreignKey,jdbcType=VARCHAR}
-    where id = #{id,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.Points">
+    update points
+    set user_id = #{userId,jdbcType=BIGINT},
+      order_no = #{orderNo,jdbcType=BIGINT},
+      points = #{points,jdbcType=INTEGER},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

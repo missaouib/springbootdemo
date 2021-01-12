@@ -3,7 +3,7 @@ package com.example.demo.dao.impl;
 import com.example.demo.dao.UserDao;
 import com.example.demo.entity.User;
 import com.example.demo.entity.UserExample;
-import com.example.demo.mapper.UserMapper;
+import com.example.demo.mapper.primary.UserMapper;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 import com.github.pagehelper.PageHelper;

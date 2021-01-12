@@ -46,10 +46,10 @@
 
 
         <!-- jdbc连接 -->
-        <jdbcConnection driverClass="${spring.datasource.driverClassName}"
-                        connectionURL="${spring.datasource.url}"
-                        userId="${spring.datasource.username}"
-                        password="${spring.datasource.password}">
+        <jdbcConnection driverClass="${spring.datasource.secondary.driverClassName}"
+                        connectionURL="${spring.datasource.secondary.jdbc-url}"
+                        userId="${spring.datasource.secondary.username}"
+                        password="${spring.datasource.secondary.password}">
             <!--高版本的 mysql-connector-java 需要设置 nullCatalogMeansCurrent=true-->
             <property name="nullCatalogMeansCurrent" value="true"/>
         </jdbcConnection>
@@ -82,12 +82,12 @@
 
 
         <!-- 生成Mapper.xml文件 -->
-        <sqlMapGenerator targetPackage="mapper" targetProject="src/main/resources">
+        <sqlMapGenerator targetPackage="mapper.secondary" targetProject="src/main/resources">
             <property name="enableSubPackages" value="true"/>
         </sqlMapGenerator>
 
         <!-- 生成 XxxMapper.java 接口-->
-        <javaClientGenerator targetPackage="com.example.demo.mapper" targetProject="src/main/java" type="XMLMAPPER">
+        <javaClientGenerator targetPackage="com.example.demo.mapper.secondary" targetProject="src/main/java" type="XMLMAPPER">
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
@@ -119,11 +119,10 @@
         <!--            &lt;!&ndash;<property name="useActualColumnNames" value="false" />&ndash;&gt;-->
         <!--        </table>-->
 
-        <table tableName="order" domainObjectName="Order" delimitIdentifiers="true">
-            <!--            <generatedKey column="id" sqlStatement="Mysql" identity="true" />-->
+        <table tableName="blog" domainObjectName="Blog" delimitIdentifiers="true">
+                        <generatedKey column="id" sqlStatement="Mysql" identity="true" />
             <!--是否使用实际列名,默认为false-->
             <!--<property name="useActualColumnNames" value="false" />-->
         </table>
-
     </context>
 </generatorConfiguration>

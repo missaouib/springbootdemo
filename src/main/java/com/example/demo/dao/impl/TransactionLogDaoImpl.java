@@ -2,7 +2,7 @@ package com.example.demo.dao.impl;
 
 import com.example.demo.entity.TransactionLog;
 import com.example.demo.dao.TransactionLogDao;
-import com.example.demo.mapper.TransactionLogMapper;
+import com.example.demo.mapper.primary.TransactionLogMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

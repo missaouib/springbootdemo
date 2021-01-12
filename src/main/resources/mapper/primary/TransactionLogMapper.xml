@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.demo.mapper.CronMapper">
-  <resultMap id="BaseResultMap" type="com.example.demo.entity.Cron">
-    <id column="cron_id" jdbcType="VARCHAR" property="cronId" />
-    <result column="cron" jdbcType="VARCHAR" property="cron" />
+<mapper namespace="com.example.demo.mapper.primary.TransactionLogMapper">
+  <resultMap id="BaseResultMap" type="com.example.demo.entity.TransactionLog">
+    <id column="id" jdbcType="VARCHAR" property="id" />
+    <result column="business" jdbcType="VARCHAR" property="business" />
+    <result column="foreign_key" jdbcType="VARCHAR" property="foreignKey" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -64,15 +65,15 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    cron_id, cron
+    id, business, foreign_key
   </sql>
-  <select id="selectByExample" parameterType="com.example.demo.entity.CronExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.example.demo.entity.TransactionLogExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from cron
+    from transaction_log
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -83,56 +84,67 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from cron
-    where cron_id = #{cronId,jdbcType=VARCHAR}
+    from transaction_log
+    where id = #{id,jdbcType=VARCHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from cron
-    where cron_id = #{cronId,jdbcType=VARCHAR}
+    delete from transaction_log
+    where id = #{id,jdbcType=VARCHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.example.demo.entity.CronExample">
-    delete from cron
+  <delete id="deleteByExample" parameterType="com.example.demo.entity.TransactionLogExample">
+    delete from transaction_log
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.example.demo.entity.Cron">
-    insert into cron (cron_id, cron)
-    values (#{cronId,jdbcType=VARCHAR}, #{cron,jdbcType=VARCHAR})
+  <insert id="insert" parameterType="com.example.demo.entity.TransactionLog">
+    insert into transaction_log (id, business, foreign_key
+      )
+    values (#{id,jdbcType=VARCHAR}, #{business,jdbcType=VARCHAR}, #{foreignKey,jdbcType=VARCHAR}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.example.demo.entity.Cron">
-    insert into cron
+  <insert id="insertSelective" parameterType="com.example.demo.entity.TransactionLog">
+    insert into transaction_log
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="cronId != null">
-        cron_id,
+      <if test="id != null">
+        id,
       </if>
-      <if test="cron != null">
-        cron,
+      <if test="business != null">
+        business,
+      </if>
+      <if test="foreignKey != null">
+        foreign_key,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="cronId != null">
-        #{cronId,jdbcType=VARCHAR},
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
       </if>
-      <if test="cron != null">
-        #{cron,jdbcType=VARCHAR},
+      <if test="business != null">
+        #{business,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignKey != null">
+        #{foreignKey,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.example.demo.entity.CronExample" resultType="java.lang.Long">
-    select count(*) from cron
+  <select id="countByExample" parameterType="com.example.demo.entity.TransactionLogExample" resultType="java.lang.Long">
+    select count(*) from transaction_log
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update cron
+    update transaction_log
     <set>
-      <if test="record.cronId != null">
-        cron_id = #{record.cronId,jdbcType=VARCHAR},
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=VARCHAR},
       </if>
-      <if test="record.cron != null">
-        cron = #{record.cron,jdbcType=VARCHAR},
+      <if test="record.business != null">
+        business = #{record.business,jdbcType=VARCHAR},
+      </if>
+      <if test="record.foreignKey != null">
+        foreign_key = #{record.foreignKey,jdbcType=VARCHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -140,25 +152,30 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update cron
-    set cron_id = #{record.cronId,jdbcType=VARCHAR},
-      cron = #{record.cron,jdbcType=VARCHAR}
+    update transaction_log
+    set id = #{record.id,jdbcType=VARCHAR},
+      business = #{record.business,jdbcType=VARCHAR},
+      foreign_key = #{record.foreignKey,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.entity.Cron">
-    update cron
+  <update id="updateByPrimaryKeySelective" parameterType="com.example.demo.entity.TransactionLog">
+    update transaction_log
     <set>
-      <if test="cron != null">
-        cron = #{cron,jdbcType=VARCHAR},
+      <if test="business != null">
+        business = #{business,jdbcType=VARCHAR},
+      </if>
+      <if test="foreignKey != null">
+        foreign_key = #{foreignKey,jdbcType=VARCHAR},
       </if>
     </set>
-    where cron_id = #{cronId,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.Cron">
-    update cron
-    set cron = #{cron,jdbcType=VARCHAR}
-    where cron_id = #{cronId,jdbcType=VARCHAR}
+  <update id="updateByPrimaryKey" parameterType="com.example.demo.entity.TransactionLog">
+    update transaction_log
+    set business = #{business,jdbcType=VARCHAR},
+      foreign_key = #{foreignKey,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

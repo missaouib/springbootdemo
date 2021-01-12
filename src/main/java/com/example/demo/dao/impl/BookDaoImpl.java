@@ -3,7 +3,7 @@ package com.example.demo.dao.impl;
 import com.example.demo.dao.BookDao;
 import com.example.demo.entity.Book;
 import com.example.demo.entity.BookExample;
-import com.example.demo.mapper.BookMapper;
+import com.example.demo.mapper.primary.BookMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 

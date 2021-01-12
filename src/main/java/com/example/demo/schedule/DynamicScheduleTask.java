@@ -1,9 +1,8 @@
 package com.example.demo.schedule;
 
-import com.example.demo.mapper.CronMapper;
+import com.example.demo.mapper.primary.CronMapper;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.SchedulingConfigurer;
 import org.springframework.scheduling.config.ScheduledTaskRegistrar;
 import org.springframework.scheduling.support.CronTrigger;

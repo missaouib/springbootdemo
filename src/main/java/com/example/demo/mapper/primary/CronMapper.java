@@ -1,4 +1,4 @@
-package com.example.demo.mapper;
+package com.example.demo.mapper.primary;
 
 import com.example.demo.entity.Cron;
 import com.example.demo.entity.CronExample;

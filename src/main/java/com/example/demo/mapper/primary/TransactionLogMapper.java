@@ -1,4 +1,4 @@
-package com.example.demo.mapper;
+package com.example.demo.mapper.primary;
 
 import com.example.demo.entity.TransactionLog;
 import com.example.demo.entity.TransactionLogExample;
