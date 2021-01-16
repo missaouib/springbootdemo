@@ -1,5 +1,6 @@
 package com.example.demo.util;
 
+import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
@@ -20,7 +21,7 @@ public final class RedisUtil {
 	public final static long DEFAULT_EXPIRE = 1800;
 
 	@Autowired
-	private RedisTemplate<String, Object> redisTemplate;
+	private RedissonClient redissonClient;
 
 	// =============================common============================
 
@@ -32,7 +33,7 @@ public final class RedisUtil {
 	 */
 	public void expire(String key, long seconds) {
 		if (seconds > 0) {
-			redisTemplate.expire(key, seconds, TimeUnit.SECONDS);
+			redissonClient.getKeys().expire(key, seconds, TimeUnit.SECONDS);
 		}
 	}
 
@@ -48,10 +49,10 @@ public final class RedisUtil {
 	/**
 	 * 根据key 获取过期时间
 	 * @param key 键 不能为null
-	 * @return 时间(秒) 返回0代表为永久有效
+	 * @return 时间(毫秒) 返回 -2 : key不存在 -1 ：无限制
 	 */
 	public long getExpire(String key) {
-		return redisTemplate.getExpire(key, TimeUnit.SECONDS);
+		return redissonClient.getKeys().remainTimeToLive(key);
 	}
 	/**
 	 * 判断key是否存在
@@ -59,7 +60,7 @@ public final class RedisUtil {
 	 * @return true 存在 false不存在
 	 */
 	public boolean hasKey(String key) {
-		return redisTemplate.hasKey(key);
+		return redissonClient.getKeys().remainTimeToLive(key) != -2;
 	}
 	/**
 	 * 删除key
@@ -67,11 +68,7 @@ public final class RedisUtil {
 	 */
 	public void del(String... key) {
 		if (key != null && key.length > 0) {
-			if (key.length == 1) {
-				redisTemplate.delete(key[0]);
-			} else {
-				redisTemplate.delete(CollectionUtils.arrayToList(key));
-			}
+			redissonClient.getKeys().delete(key);
 		}
 	}
 	// ============================String=============================
@@ -81,7 +78,7 @@ public final class RedisUtil {
 	 * @return 值
 	 */
 	public Object get(String key) {
-		return key == null ? null : redisTemplate.opsForValue().get(key);
+		return redissonClient.getBucket(key).get();
 	}
 	/**
 	 * 永久 set
@@ -90,7 +87,7 @@ public final class RedisUtil {
 	 * @return true成功 false失败
 	 */
 	public void set(String key, Object value) {
-		redisTemplate.opsForValue().set(key, value);
+		redissonClient.getBucket(key).set(value);
 	}
 
 	/**
@@ -112,7 +109,7 @@ public final class RedisUtil {
 	 */
 	public void set(String key, Object value, long seconds) {
 		if (seconds > 0) {
-			redisTemplate.opsForValue().set(key, value, seconds, TimeUnit.SECONDS);
+			redissonClient.getBucket(key).set(value, seconds, TimeUnit.SECONDS);
 		} else {
 			set(key, value);
 		}
@@ -127,18 +124,14 @@ public final class RedisUtil {
 		if (delta <= 0) {
 			throw new RuntimeException("递增因子必须大于0");
 		}
-		return redisTemplate.opsForValue().increment(key, delta);
+		return redissonClient.getAtomicLong(key).addAndGet(delta);
 	}
 	/**
 	 * 递减
 	 * @param key 键
-	 * @param delta 要减少几(小于0)
-	 * @return
+	 * @return 自减 1
 	 */
-	public long decr(String key, long delta) {
-		if (delta <= 0) {
-			throw new RuntimeException("递减因子必须大于0");
-		}
-		return redisTemplate.opsForValue().increment(key, -delta);
+	public long decr(String key) {
+		return redissonClient.getAtomicLong(key).decrementAndGet();
 	}
 }

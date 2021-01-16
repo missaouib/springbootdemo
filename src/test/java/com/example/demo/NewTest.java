@@ -5,6 +5,10 @@ import com.google.common.collect.Lists;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.Month;
+import java.time.temporal.ChronoField;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +19,16 @@ import java.util.stream.Stream;
 
 public class NewTest {
     public static void main(String[] args) {
+        LocalDate localDate = LocalDate.now();
+        int year = localDate.getYear();
+        int year1 = localDate.get(ChronoField.YEAR);
+        Month month = localDate.getMonth();
+        int month1 = localDate.get(ChronoField.MONTH_OF_YEAR);
+        int day = localDate.getDayOfMonth();
+        int day1 = localDate.get(ChronoField.DAY_OF_MONTH);
+        DayOfWeek dayOfWeek = localDate.getDayOfWeek();
+        int dayOfWeek1 = localDate.get(ChronoField.DAY_OF_WEEK);
+
         ArrayList<Integer> list = Lists.newArrayList(1, 2, 3, 4, 5, 6,7,8,9,10);
         PageUtils.Page<Integer> integerPage = PageUtils.buildByPageNum(list, 1, 3);
         list.stream().filter(integer -> {

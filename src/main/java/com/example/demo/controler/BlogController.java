@@ -1,12 +1,14 @@
 package com.example.demo.controler;
 
 import com.example.demo.entity.Blog;
+import com.example.demo.mapper.secondary.BlogMapper;
 import com.example.demo.service.BlogServer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.Random;
 
 @RestController
 @Slf4j
@@ -22,8 +24,8 @@ public class BlogController {
         blog.setContent("context");
         blog.setSubtitle("subtitle");
         blog.setTitle("title");
-        blog.setCreatetime(new Date());
-        blog.setUpdatetime(new Date());
+        blog.setCreateTime(new Date());
+        blog.setUpdateTime(new Date());
         blogServer.insert(blog);
         return blog.toString();
     }
@@ -40,9 +42,9 @@ public class BlogController {
         blog.setAuthor("author");
         blog.setContent("context");
         blog.setSubtitle("subtitle");
-        blog.setTitle("title");
-        blog.setCreatetime(new Date());
-        blog.setUpdatetime(new Date());
+        blog.setTitle("title:  "+ new Random().nextInt(100));
+        blog.setUpdateTime(new Date());
+        blog.setCreateTime(new Date());
         blogServer.update(blog);
     }
 

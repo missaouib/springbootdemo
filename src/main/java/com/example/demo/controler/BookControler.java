@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 @RestController()
@@ -19,11 +20,12 @@ public class BookControler {
     @Autowired
     private BookService bookService;
 
-    @GetMapping("/insert/{id}")
-    private Book insert(@PathVariable Integer id){
+    @GetMapping("/insert")
+    private Book insert(){
         Book book = new Book();
-        book.setId(id);
         book.setName("飘");
+        book.setCreateTime(new Date());
+        book.setUpdateTime(new Date());
         book.setPrice(new BigDecimal(45));
         return bookService.insert(book);
     }

@@ -15,7 +15,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * @description:   使用责任链模式  链顺序：增->删->改
+ * @description: 使用责任链模式  链顺序：增->删->改
  * @version: 1.0
  */
 @Slf4j
@@ -38,18 +38,18 @@ public abstract class AbstractHandler {
     /**
      * 传递处理的事件
      */
-    public void handleMessage(Entry entry){
-        if(this.eventType == entry.getHeader().getEventType()){
+    public void handleMessage(Entry entry) {
+        if (this.eventType == entry.getHeader().getEventType()) {
             //发生写入操作的库名
             String database = entry.getHeader().getSchemaName();
             //发生写入操作的表名
             String table = entry.getHeader().getTableName();
-            log.info("监听到数据库：{}，表：{} 的 {} 事件",database,table, eventType.toString());
+            log.info("监听到数据库：{}，表：{} 的 {} 事件", database, table, eventType.toString());
             //如果 rowChange 不为空,则执行 handleRowChange()
             Optional.ofNullable(this.getRowChange(entry))
                     .ifPresent(this::handleRowChange);
-        }else{
-            if(nextHandler != null){
+        } else {
+            if (nextHandler != null) {
                 nextHandler.handleMessage(entry);
             }
         }
@@ -63,7 +63,7 @@ public abstract class AbstractHandler {
     /**
      * 获得数据库 UPDATE、DELETE、INSERT 的数据
      */
-    private RowChange getRowChange(Entry entry){
+    private RowChange getRowChange(Entry entry) {
         RowChange rowChange = null;
         try {
             rowChange = RowChange.parseFrom(entry.getStoreValue());
@@ -76,9 +76,17 @@ public abstract class AbstractHandler {
     /**
      * columns 转 map
      */
-    protected Map<String,String> columnsToMap(List<Column> columns) {
-        return columns.stream().collect(Collectors.toMap(Column::getName, Column::getValue));
+    protected Map<String, String> columnsToMap(List<Column> columnsList) {
+        return columnsList.stream().collect(Collectors.toMap(Column::getName, Column::getValue));
     }
+
+    /**
+     * columns 转 bean
+     */
+    protected <T> T columnsToBean(List<Column> columnsList, Class<T> clazz) {
+        return CanalDataHandler.convertToBean(columnsList, clazz);
+    }
+
 
 
 }

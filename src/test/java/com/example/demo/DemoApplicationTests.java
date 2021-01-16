@@ -1,9 +1,12 @@
 package com.example.demo;
 
+import com.example.demo.entity.Blog;
+import com.example.demo.entity.BlogExample;
 import com.example.demo.entity.User;
 //import com.example.demo.kafka.KafkaReceiver;
 import com.example.demo.kafka.KafkaReceiver;
 import com.example.demo.kafka.KafkaSender;
+import com.example.demo.mapper.secondary.BlogMapper;
 import com.example.demo.mapstruct.Person;
 import com.example.demo.mapstruct.PersonDTO;
 import com.example.demo.mapstruct.PersonMapper;
@@ -27,6 +30,9 @@ class DemoApplicationTests {
     private UserService userService;
 
     @Autowired
+    private BlogMapper blogMapper;
+
+    @Autowired
     private RedissonClient redissonClient;
 
     @Autowired
@@ -41,11 +47,17 @@ class DemoApplicationTests {
 
     @Test
     public void test1() {
-        User user = new User();
-        user.setUsername("hi");
-        user.setPassword("passwd");
-        List<User> list = userService.getList();
-        list.forEach(e -> log.warn(e.toString()));
+        redissonClient.getBucket("aa").set(4);
+        System.out.println(redissonClient.getKeys().remainTimeToLive("aa"));
+    }
+
+    @Test
+    public void test11() {
+        BlogExample example = new BlogExample();
+        BlogExample.Criteria criteria = example.createCriteria();
+        criteria.andAuthorEqualTo("aa");
+        int delete = blogMapper.deleteByExample(example);
+        System.err.println(delete);
     }
 
     @Test
