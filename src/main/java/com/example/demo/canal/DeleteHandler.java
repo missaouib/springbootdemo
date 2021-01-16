@@ -7,16 +7,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 /**
- * @author: Yakai Zheng（zhengyk@cloud-young.com）
- * @date: Created on 2018/12/18
- * @description:  监听到数据库删除操作后执行的逻辑
+ * @description: 监听到数据库删除操作后执行的逻辑
  * @version: 1.0
  */
 @Slf4j
 @Component
 public class DeleteHandler extends AbstractHandler {
 
-    public DeleteHandler(){
+    public DeleteHandler() {
         eventType = EventType.DELETE;
     }
 
@@ -29,10 +27,10 @@ public class DeleteHandler extends AbstractHandler {
     public void handleRowChange(RowChange rowChange) {
         rowChange.getRowDatasList().forEach(rowData -> {
             rowData.getBeforeColumnsList().forEach(column -> {
-                if("id".equals(column.getName())){
+                if ("id".equals(column.getName())) {
                     //清除 redis 缓存
-                    log.info("清除 Redis 缓存 key={} 成功!\r\n","blog:"+column.getValue());
-                    redisUtil.del("blog:"+column.getValue());
+                    log.info("清除 Redis 缓存 key={} 成功!\r\n", "blog:" + column.getValue());
+                    redisUtil.del("blog:" + column.getValue());
                 }
             });
         });
