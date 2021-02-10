@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 @RestController
@@ -52,6 +53,16 @@ public class BlogController {
     public String find(@PathVariable int id){
         Blog blog = blogServer.findById(id);
         return blog.toString();
+    }
+
+    @GetMapping("findByCondition")
+    public String findByCondition(){
+        Blog blog = new Blog();
+        blog.setAuthor("author1");
+        blog.setTitle("title1");
+        blog.setSubtitle("subtitle");
+        List<Blog> blogList = blogServer.findByCondition(blog);
+        return blogList.toString();
     }
 
 

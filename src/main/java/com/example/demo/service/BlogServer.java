@@ -9,6 +9,8 @@ public interface BlogServer {
 
     Blog findById(int id);
 
+    List<Blog> findByCondition(Blog entity);
+
     int insert(Blog entity);
 
     int update(Blog entity);

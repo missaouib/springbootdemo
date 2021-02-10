@@ -38,6 +38,14 @@ public class BlogServerImpl implements BlogServer {
     }
 
     @Override
+    public List<Blog> findByCondition(Blog entity) {
+        BlogExample example = new BlogExample();
+        example.createCriteria().andAuthorEqualTo(entity.getAuthor()).andSubtitleEqualTo(entity.getSubtitle()).andTitleEqualTo(entity.getTitle());
+        List<Blog> blogs = blogMapper.selectByExample(example);
+        return blogs;
+    }
+
+    @Override
     public int insert(Blog entity) {
         return blogMapper.insert(entity);
     }
