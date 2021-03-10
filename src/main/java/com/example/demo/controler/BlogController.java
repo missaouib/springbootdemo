@@ -37,26 +37,26 @@ public class BlogController {
     }
 
     @GetMapping("update/{id}")
-    public void update(@PathVariable int id){
+    public void update(@PathVariable int id) {
         Blog blog = new Blog();
         blog.setId(id);
         blog.setAuthor("author");
         blog.setContent("context");
         blog.setSubtitle("subtitle");
-        blog.setTitle("title:  "+ new Random().nextInt(100));
+        blog.setTitle("title:  " + new Random().nextInt(100));
         blog.setUpdateTime(new Date());
         blog.setCreateTime(new Date());
         blogServer.update(blog);
     }
 
     @GetMapping("find/{id}")
-    public String find(@PathVariable int id){
+    public String find(@PathVariable int id) {
         Blog blog = blogServer.findById(id);
-        return blog.toString();
+        return blog == null ? "null" : blog.toString();
     }
 
     @GetMapping("findByCondition")
-    public String findByCondition(){
+    public String findByCondition() {
         Blog blog = new Blog();
         blog.setAuthor("author1");
         blog.setTitle("title1");

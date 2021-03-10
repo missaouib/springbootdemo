@@ -40,7 +40,7 @@ public class BookServiceImpl implements BookService {
     }
 
     /**
-     * @CachePut标注的方法在执行前不会去检查缓存中是否存在之前执行过的结果，
+     * @CachePut 标注的方法在执行前不会去检查缓存中是否存在之前执行过的结果，
      * 而是每次都会执行该方法，并将执行结果以键值对的形式存入指定的缓存中
      * @param entity
      * @return

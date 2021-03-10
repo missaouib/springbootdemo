@@ -20,7 +20,7 @@ public class SpringCacheConfig {
     @Bean
     CacheManager cacheManager() {
         Map<String, CacheConfig> config = new HashMap<>();
-        config.put("testCache", new CacheConfig(60*1000, 60*1000));
+        config.put("bookCache", new CacheConfig(60*1000, 60*1000));
         return new RedissonSpringCacheManager(redissonClient, config);
     }
 }

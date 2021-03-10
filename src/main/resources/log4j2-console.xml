@@ -9,7 +9,7 @@
         <!--这个输出控制台的配置-->
         <console name="Console" target="SYSTEM_OUT">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
-            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
             <!--输出日志的格式-->
             <PatternLayout pattern="%highlight{%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n}{FATAL=red, ERROR=red, WARN=yellow, INFO=cyan, DEBUG=cyan,TRACE=blue}" disableAnsi="false" charset="UTF-8"/>
 <!--            <PatternLayout-->
@@ -36,8 +36,20 @@
         <!-- AsyncRoot - 异步记录日志 - 需要LMAX Disruptor的支持 -->
         <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
         <!--Logger节点用来单独指定日志的形式，name为包路径,比如要为org.springframework包下所有日志指定为INFO级别等。 -->
+<!--        属性 name : package 的名称-->
+<!--        属性 level：日志级别  如果未指定级别，则默认为ERROR-->
+<!--        属性 additivity : 是否只在子节点 AppenderRef 里输出  默认true-->
+<!--        子节点 AppenderRef : 指定日志输出到那个 Appender-->
         <logger name="org.springframework" level="INFO"/>
         <logger name="org.mybatis" level="INFO"/>
+        <logger name="com.example.demo.mapper" level="debug" additivity="false">
+            <appender-ref ref="Console"/>
+        </logger>
+        <logger name="com.example.demo.dao" level="debug" additivity="false">
+            <appender-ref ref="Console"/>
+        </logger>
+<!--        属性 level ：日志级别，如果 Appender 为指定，则使用这个-->
+<!--        子节点 AppenderRef : 指定日志输出到那个 Appender-->
         <root level="info">
             <appender-ref ref="Console"/>
         </root>
