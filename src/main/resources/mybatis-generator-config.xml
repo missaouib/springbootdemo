@@ -119,7 +119,7 @@
         <!--            &lt;!&ndash;<property name="useActualColumnNames" value="false" />&ndash;&gt;-->
         <!--        </table>-->
 
-        <table tableName="book" domainObjectName="Book" delimitIdentifiers="true">
+        <table tableName="user_info" domainObjectName="UserInfo" delimitIdentifiers="true">
                         <generatedKey column="id" sqlStatement="Mysql" identity="true" />
             <!--是否使用实际列名,默认为false-->
             <!--<property name="useActualColumnNames" value="false" />-->

@@ -1,8 +1,8 @@
 package com.example.demo.controler;
 
 import com.example.demo.entity.Blog;
-import com.example.demo.mapper.secondary.BlogMapper;
 import com.example.demo.service.BlogServer;
+import com.example.demo.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -15,6 +15,10 @@ import java.util.Random;
 @Slf4j
 @RequestMapping("/blog")
 public class BlogController {
+
+    @Autowired
+    private RedisUtil redisUtil;
+
     @Autowired
     private BlogServer blogServer;
 
@@ -51,8 +55,18 @@ public class BlogController {
 
     @GetMapping("find/{id}")
     public String find(@PathVariable int id) {
-        Blog blog = blogServer.findById(id);
+        Blog blog = (Blog) redisUtil.get("blog:" + id);
+        if (blog == null) {
+            blog = blogServer.findById(id);
+        }
+        redisUtil.set("blog:"+id,blog,30*60);
         return blog == null ? "null" : blog.toString();
+    }
+
+    @GetMapping("findall")
+    public List<Blog> findAll() {
+        List<Blog> blogList = blogServer.selectAll();
+        return blogList;
     }
 
     @GetMapping("findByCondition")
@@ -64,6 +78,4 @@ public class BlogController {
         List<Blog> blogList = blogServer.findByCondition(blog);
         return blogList.toString();
     }
-
-
 }
