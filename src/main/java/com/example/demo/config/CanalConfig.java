@@ -7,13 +7,12 @@ import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
 
 import java.net.InetSocketAddress;
 
 @Slf4j
 @Setter
-@Component
+//@Component
 @ConfigurationProperties("canal")
 public class CanalConfig {
     private String host;

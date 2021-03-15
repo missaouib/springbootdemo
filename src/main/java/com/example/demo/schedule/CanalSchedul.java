@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
-import org.springframework.stereotype.Component;
 
 import java.util.List;
 
@@ -21,7 +20,7 @@ import java.util.List;
  * @version: 1.0
  */
 @Slf4j
-@Component
+//@Component
 public class CanalSchedul {
 
     @Autowired
