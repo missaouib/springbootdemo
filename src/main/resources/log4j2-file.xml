@@ -9,10 +9,25 @@
         <!-- 格式化输出：%date表示日期，%thread表示线程名，%-5level：级别从左显示5个字符宽度 %msg：日志消息，%n是换行符-->
         <!-- %logger{36} 表示 Logger 名字最长36个字符 -->
         <property name="LOG_PATTERN" value="%date{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"/>
-        <property name="LOG_PATTERN_COLOR" value="%highlight{%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n}{FATAL=red, ERROR=red, WARN=yellow, INFO=cyan, DEBUG=cyan,TRACE=blue}" disableAnsi="false" charset="UTF-8"/>
+        <property name="LOG_PATTERN_COLOR"
+                  value="%highlight{%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n}{FATAL=red, ERROR=red, WARN=yellow, INFO=cyan, DEBUG=cyan,TRACE=blue}"
+                  disableAnsi="false" charset="UTF-8"/>
         <!-- 定义日志存储的路径 -->
         <property name="FILE_PATH" value="log"/>
         <property name="FILE_NAME" value="demo"/>
+
+        <property name="INFO_MAX" value="5"/>
+        <property name="INFO_GLOB" value="**info-**.log.gz"/>
+
+        <property name="DEBUG_MAX" value="5"/>
+        <property name="DEBUG_GLOB" value="**debug-**.log.gz"/>
+
+        <property name="ERROR_MAX" value="5"/>
+        <property name="ERROR_GLOB" value="**error-**.log.gz"/>
+
+        <property name="WARN_MAX" value="5"/>
+        <property name="WARN_GLOB" value="**warn-**.log.gz"/>
+
     </Properties>
 
     <appenders>
@@ -31,47 +46,74 @@
 
         <!-- 这个会打印出所有的info及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
         <RollingFile name="RollingFileInfo" fileName="${FILE_PATH}/info.log"
-                     filePattern="${FILE_PATH}/${FILE_NAME}-INFO-%d{yyyy-MM-dd}_%i.log.gz">
+                     filePattern="${FILE_PATH}/${FILE_NAME}-info-%d{yyyy-MM-dd}-%i.log.gz">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="${LOG_PATTERN}"/>
             <Policies>
                 <!--interval属性用来指定多久滚动一次，默认是1 hour-->
                 <TimeBasedTriggeringPolicy interval="1"/>
-                <SizeBasedTriggeringPolicy size="10MB"/>
+                <SizeBasedTriggeringPolicy size="1MB"/>
+                <!-- 若将filePattern改为filePattern=“logs/app-%d{yyyy-MM-dd HH-mm}-%i.log”，yyyy-MM-dd HH-mm最小时间粒度为分钟，将每1分钟触发一次rollover。-->
+                <!-- 将多个TriggeringPolicy放到Policies中表示使用复合策略-->
+                <!-- 如上，同时使用了TimeBasedTriggeringPolicy、SizeBasedTriggeringPolicy，有一个条件满足，就会触发rollover。-->
             </Policies>
             <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件开始覆盖-->
-            <DefaultRolloverStrategy max="15"/>
+            <DefaultRolloverStrategy max="${INFO_MAX}">
+                <Delete basePath="${FILE_PATH}" followLinks="true" maxDepth="2">
+                    <IfFileName glob="${INFO_GLOB}">
+                        <IfAny>
+                            <IfAccumulatedFileCount exceeds="${INFO_MAX}"/>
+                        </IfAny>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
         </RollingFile>
 
         <!-- 这个会打印出所有的warn及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
         <RollingFile name="RollingFileWarn" fileName="${FILE_PATH}/warn.log"
-                     filePattern="${FILE_PATH}/${FILE_NAME}-WARN-%d{yyyy-MM-dd}_%i.log.gz">
+                     filePattern="${FILE_PATH}/${FILE_NAME}-warn-%d{yyyy-MM-dd}-%i.log.gz">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="warn" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="${LOG_PATTERN}"/>
             <Policies>
                 <!--interval属性用来指定多久滚动一次，默认是1 hour-->
                 <TimeBasedTriggeringPolicy interval="1"/>
-                <SizeBasedTriggeringPolicy size="10MB"/>
+                <SizeBasedTriggeringPolicy size="1MB"/>
             </Policies>
             <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件开始覆盖-->
-            <DefaultRolloverStrategy max="15"/>
+            <DefaultRolloverStrategy max="${WARN_MAX}">
+                <Delete basePath="${FILE_PATH}" followLinks="true" maxDepth="2">
+                    <IfFileName glob="${WARN_GLOB}">
+                        <IfAny>
+                            <IfAccumulatedFileCount exceeds="${WARN_MAX}"/>
+                        </IfAny>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
         </RollingFile>
 
         <!-- 这个会打印出所有的error及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
         <RollingFile name="RollingFileError" fileName="${FILE_PATH}/error.log"
-                     filePattern="${FILE_PATH}/${FILE_NAME}-ERROR-%d{yyyy-MM-dd}_%i.log.gz">
+                     filePattern="${FILE_PATH}/${FILE_NAME}-error-%d{yyyy-MM-dd}-%i.log.gz">
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="error" onMatch="ACCEPT" onMismatch="DENY"/>
             <PatternLayout pattern="${LOG_PATTERN}"/>
             <Policies>
                 <!--interval属性用来指定多久滚动一次，默认是1 hour-->
                 <TimeBasedTriggeringPolicy interval="1"/>
-                <SizeBasedTriggeringPolicy size="10MB"/>
+                <SizeBasedTriggeringPolicy size="1MB"/>
             </Policies>
             <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件开始覆盖-->
-            <DefaultRolloverStrategy max="15"/>
+            <DefaultRolloverStrategy max="${ERROR_MAX}">
+                <Delete basePath="${FILE_PATH}" followLinks="true" maxDepth="2">
+                    <IfFileName glob="${ERROR_GLOB}">
+                        <IfAny>
+                            <IfAccumulatedFileCount exceeds="${ERROR_MAX}"/>
+                        </IfAny>
+                    </IfFileName>
+                </Delete>
+            </DefaultRolloverStrategy>
         </RollingFile>
 
     </appenders>
