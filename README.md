@@ -15,3 +15,9 @@ KafkaReceiver.java 中注释 `@KafkaListener`
 ## 关闭 elastic job
 
 配置文件 `spring.autoconfigure.exclude`
+
+## 关闭多数据源
+
+1. 配置文件注释`second`数据源
+2. SecondaryDataSourceConfig.java `@Configuration`
+3. BlogServerImpl `@Autowired(required = false)`

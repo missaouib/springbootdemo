@@ -8,12 +8,11 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import javax.sql.DataSource;
 
-@Configuration
+//@Configuration
 //配置mybatis的接口类放的地方
 @MapperScan(basePackages = "com.example.demo.mapper.secondary", sqlSessionFactoryRef = "SecondarySqlSessionFactory")
 public class SecondaryDataSourceConfig {

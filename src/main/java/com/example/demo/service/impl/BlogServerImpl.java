@@ -14,7 +14,7 @@ import java.util.List;
 @Service
 @Slf4j
 public class BlogServerImpl implements BlogServer {
-    @Autowired
+    @Autowired(required = false)
     private BlogMapper blogMapper;
     @Autowired
     private RedisUtil redisUtil;
