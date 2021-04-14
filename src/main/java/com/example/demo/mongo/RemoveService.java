@@ -3,6 +3,7 @@ package com.example.demo.mongo;
 import com.example.demo.entity.mongodb.User;
 import com.mongodb.client.result.DeleteResult;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
@@ -20,7 +21,7 @@ public class RemoveService {
      */
     private static final String COLLECTION_NAME = "users";
 
-    @Resource
+    @Autowired(required=false)
     private MongoTemplate mongoTemplate;
 
     /**

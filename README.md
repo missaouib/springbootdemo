@@ -21,3 +21,7 @@ KafkaReceiver.java 中注释 `@KafkaListener`
 1. 配置文件注释`second`数据源
 2. SecondaryDataSourceConfig.java `@Configuration`
 3. BlogServerImpl `@Autowired(required = false)`
+
+## 关闭mongoDB
+1. service `@Autowired(required = false)`
+2. `@SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})`

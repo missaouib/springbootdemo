@@ -6,6 +6,7 @@ import com.mongodb.client.model.IndexOptions;
 import com.mongodb.client.model.Indexes;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.Document;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
@@ -22,7 +23,7 @@ public class IndexService {
      */
     private static final String COLLECTION_NAME = "users";
 
-    @Resource
+    @Autowired(required=false)
     private MongoTemplate mongoTemplate;
 
     /**

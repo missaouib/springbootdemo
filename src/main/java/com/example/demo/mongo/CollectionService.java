@@ -13,7 +13,7 @@ import java.util.Set;
 @Service
 public class CollectionService {
 
-    @Autowired
+    @Autowired(required=false)
     private MongoTemplate mongoTemplate;
 
     /**

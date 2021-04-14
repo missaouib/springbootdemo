@@ -2,6 +2,7 @@ package com.example.demo.mongo;
 
 import org.bson.Document;
 import org.bson.conversions.Bson;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @Service
 public class ViewService {
 
-    @Resource
+    @Autowired(required=false)
     private MongoTemplate mongoTemplate;
 
     /**

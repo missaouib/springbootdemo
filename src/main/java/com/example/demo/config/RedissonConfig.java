@@ -7,11 +7,12 @@ import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
 import org.redisson.spring.data.connection.RedissonConnectionFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
@@ -21,9 +22,8 @@ import java.io.IOException;
 public class RedissonConfig {
 
     @Bean
-    public RedissonClient redissonClient() throws IOException {
-//        Config config = Config.fromYAML(RedissonConfig.class.getClassLoader().getResource("redisson-cluster.yaml"));
-        Config config = Config.fromYAML(RedissonConfig.class.getClassLoader().getResource("redisson-single.yaml"));
+    public RedissonClient redissonClient(@Value("classpath:redisson-single.yaml")Resource configFile) throws IOException {
+        Config config = Config.fromYAML(configFile.getInputStream());
         return Redisson.create(config);
     }
 
