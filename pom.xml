@@ -245,6 +245,25 @@
     </dependencies>
 
     <build>
+        <finalName>${project.artifactId}</finalName>
+
+        <!-- 默认源代码和资源文件目录配置 -->
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+        <testResources>
+            <testResource>
+                <directory>src/test/resources</directory>
+            </testResource>
+            <testResource>
+                <directory>src/test/conf</directory>
+            </testResource>
+        </testResources>
+
         <plugins>
             <plugin>
                 <groupId>org.mybatis.generator</groupId>
@@ -343,41 +362,7 @@
                     </execution>
                 </executions>
             </plugin>
-            <!--  dockerfile-maven-plugin   -->
-<!--            <plugin>-->
-<!--                <groupId>com.spotify</groupId>-->
-<!--                <artifactId>dockerfile-maven-plugin</artifactId>-->
-<!--                <version>1.4.13</version>-->
-<!--                <executions>-->
-<!--                    <execution>-->
-<!--                        <id>default</id>-->
-<!--                        <goals>-->
-<!--                            <goal>build</goal>-->
-<!--                            &lt;!&ndash; <goal>push</goal>&ndash;&gt;-->
-<!--                        </goals>-->
-<!--                    </execution>-->
-<!--                </executions>-->
-<!--                <configuration>-->
-<!--                    <repository>${project.artifactId}</repository>-->
-<!--                    <tag>${project.version}</tag>-->
-<!--                    <buildArgs>-->
-<!--                        <JAR_FILE>${project.build.finalName}.jar</JAR_FILE>-->
-<!--                    </buildArgs>-->
-<!--                </configuration>-->
-<!--            </plugin>-->
         </plugins>
-        <!--        <resources>-->
-        <!--            <resource>-->
-        <!--                <directory>src/main/java</directory>-->
-        <!--                <includes>-->
-        <!--                    <include>**/*.xml</include>-->
-        <!--                </includes>-->
-        <!--                <filtering>false</filtering>-->
-        <!--            </resource>-->
-        <!--            <resource>-->
-        <!--                <directory>src/main/resources</directory>-->
-        <!--            </resource>-->
-        <!--        </resources>-->
     </build>
 
 </project>
