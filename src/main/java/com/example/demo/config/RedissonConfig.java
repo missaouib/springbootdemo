@@ -7,9 +7,11 @@ import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
 import org.redisson.config.Config;
 import org.redisson.spring.data.connection.RedissonConnectionFactory;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.Resource;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -28,12 +30,13 @@ public class RedissonConfig {
     }
 
     @Bean
+    @Primary//由于引入jedis
     public RedissonConnectionFactory redissonConnectionFactory(RedissonClient redisson) {
         return new RedissonConnectionFactory(redisson);
     }
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
+    public RedisTemplate<String, Object> redisTemplate(@Qualifier("redissonConnectionFactory") RedisConnectionFactory factory) {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate();
         redisTemplate.setConnectionFactory(factory);
 //        setSerializer(template);//Setting up serialization tools
