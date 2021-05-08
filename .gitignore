@@ -35,3 +35,4 @@ build/
 /result.json
 
 log/
+rebel.xml
