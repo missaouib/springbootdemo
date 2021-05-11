@@ -1,6 +1,7 @@
 package com.example.demo.controler;
 
 import com.example.demo.VO.BookVO;
+import com.example.demo.aspect.WebLog;
 import com.example.demo.entity.Book;
 import com.example.demo.service.BookService;
 import com.example.demo.util.BeanConvertUtils;
@@ -24,31 +25,32 @@ public class BookControler {
     private BookService bookService;
 
     @PostMapping("/insert")
-    private ResponseEntity insert(@Valid @RequestBody BookVO bookVO) {
+    public ResponseEntity insert(@Valid @RequestBody BookVO bookVO) {
         Book book = BeanConvertUtils.convert(bookVO, Book.class);
         bookService.insert(book);
         return ResponseUtils.ok(book);
     }
 
+    @WebLog(description = "select")
     @GetMapping("/select/{id}")
-    private ResponseEntity select(@PathVariable Integer id) {
+    public ResponseEntity select(@PathVariable Integer id) {
         Book book = bookService.findById(id);
-        return ResponseUtils.ok(true);
+        return ResponseUtils.ok(book);
     }
 
     @GetMapping("/selectall")
-    private List<Book> selectall() {
+    public List<Book> selectall() {
         return bookService.selectAll();
     }
 
     @GetMapping("/delete/{id}")
-    private int delete(@PathVariable Integer id) {
+    public int delete(@PathVariable Integer id) {
         return bookService.delete(id);
     }
 
 
     @GetMapping("/update/{id}")
-    private Book update(@PathVariable Integer id) {
+    public Book update(@PathVariable Integer id) {
         Book book = bookService.findById(id);
         book.setPrice(new BigDecimal(4534));
         return bookService.update(book);
