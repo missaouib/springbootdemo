@@ -1,6 +1,6 @@
 package com.example.demo.util;
 
-import constants.ResponseCode;
+import com.example.demo.constants.ResponseCode;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 

@@ -15,4 +15,7 @@ public interface BookDao {
 
     int delete(int id);
 
+    int batchInsert(List<Book> list);
+
+    int batchUpdateByPrimaryKeySelective(List<Book> list);
 }

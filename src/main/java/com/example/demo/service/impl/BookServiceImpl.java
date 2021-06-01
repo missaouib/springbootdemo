@@ -64,13 +64,25 @@ public class BookServiceImpl implements BookService {
     /**
      * allEntries：非必需，默认为false。当为true时，会移除所有数据。如：@CachEvict(value=”testcache”,allEntries=true)
      * beforeInvocation：非必需，默认为false，会在调用方法之后移除数据。当为true时，会在调用方法之前移除数据
+     *
      * @param id
      * @return
      */
-    @CacheEvict(cacheNames = { "book" }, key = "#id", allEntries = false,beforeInvocation = true)//根据key清除缓存，一般该注解标注在修改和删除方法上
+    @CacheEvict(cacheNames = {"book"}, key = "#id", allEntries = false, beforeInvocation = true)
+//根据key清除缓存，一般该注解标注在修改和删除方法上
     @Override
     public int delete(int id) {
         System.out.println("from db");
         return bookDao.delete(id);
+    }
+
+    @Override
+    public int batchInsert(List<Book> list) {
+        return bookDao.batchInsert(list);
+    }
+
+    @Override
+    public int batchUpdateByPrimaryKeySelective(List<Book> list) {
+        return bookDao.batchUpdateByPrimaryKeySelective(list);
     }
 }

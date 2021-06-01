@@ -2,9 +2,10 @@ package com.example.demo.mapper.primary;
 
 import com.example.demo.entity.Book;
 import com.example.demo.entity.BookExample;
-import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface BookMapper {
@@ -29,4 +30,8 @@ public interface BookMapper {
     int updateByPrimaryKeySelective(Book record);
 
     int updateByPrimaryKey(Book record);
+
+    int batchInsert(List<Book> bookList);
+
+    int batchUpdateByPrimaryKeySelective(List<Book> bookList);
 }

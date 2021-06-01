@@ -1,7 +1,7 @@
 package com.example.demo.exception;
 
+import com.example.demo.constants.ResponseCode;
 import com.example.demo.util.ResponseUtils;
-import constants.ResponseCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;

@@ -1,9 +1,6 @@
 package com.example.demo;
 
-import com.example.demo.entity.Blog;
 import com.example.demo.entity.BlogExample;
-import com.example.demo.entity.User;
-//import com.example.demo.kafka.KafkaReceiver;
 import com.example.demo.kafka.KafkaReceiver;
 import com.example.demo.kafka.KafkaSender;
 import com.example.demo.mapper.secondary.BlogMapper;
@@ -15,13 +12,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.redisson.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.data.redis.RedisProperties;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.RedisTemplate;
+
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
-import java.util.List;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @SpringBootTest
@@ -42,8 +39,18 @@ class DemoApplicationTests {
     @Autowired
     private KafkaReceiver kafkaReceiver;
 
+    @Autowired
+    private RedisTemplate redisTemplate;
+
     @Test
     void contextLoads() {
+    }
+
+    @Test
+    public void test0() {
+        redisTemplate.opsForValue().set("a", "1");
+        redisTemplate.expireAt("a", new Date());
+
     }
 
     @Test
@@ -82,11 +89,11 @@ class DemoApplicationTests {
 
 
     @Test
-    public void test3(){
+    public void test3() {
         RMap map = redissonClient.getMap("mymap");
-        map.put("a","b");
+        map.put("a", "b");
         System.out.println(map.get("a"));
-        map.put("c","d");
+        map.put("c", "d");
         System.out.println(map.get("a"));
         RKeys keys = redissonClient.getKeys();
         System.out.println(keys.toString());
@@ -106,7 +113,7 @@ class DemoApplicationTests {
     }
 
     @Test
-    public void test4(){
+    public void test4() {
         userService.multiThread();
     }
 
@@ -119,8 +126,8 @@ class DemoApplicationTests {
         Person person = personMapper.personDTOToPerson(personDTO);
         log.error(person.toString());
         log.error(personDTO.toString());
-        assertEquals(person.getLastName(),personDTO.getLastName());
-        assertEquals(person.getName(),personDTO.getFirstName());
+        assertEquals(person.getLastName(), personDTO.getLastName());
+        assertEquals(person.getName(), personDTO.getFirstName());
     }
 
 }

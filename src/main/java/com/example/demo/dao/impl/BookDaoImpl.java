@@ -41,4 +41,14 @@ public class BookDaoImpl implements BookDao {
     public int delete(int id) {
         return bookMapper.deleteByPrimaryKey(id);
     }
+
+    @Override
+    public int batchInsert(List<Book> list) {
+        return bookMapper.batchInsert(list);
+    }
+
+    @Override
+    public int batchUpdateByPrimaryKeySelective(List<Book> list) {
+        return bookMapper.batchUpdateByPrimaryKeySelective(list);
+    }
 }

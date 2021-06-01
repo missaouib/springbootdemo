@@ -1,4 +1,4 @@
-package constants;
+package com.example.demo.constants;
 
 public enum ResponseCode {
     SUCCESS(0, ""),
