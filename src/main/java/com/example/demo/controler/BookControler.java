@@ -7,6 +7,9 @@ import com.example.demo.service.BookService;
 import com.example.demo.util.BeanConvertUtils;
 import com.example.demo.util.ResponseUtils;
 import com.google.common.collect.Lists;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -22,11 +25,13 @@ import java.util.List;
 @RequestMapping("/book")
 @Slf4j
 @Validated
+@Api(tags = "书籍管理")
 public class BookControler {
     @Autowired
     private BookService bookService;
 
     @PostMapping("/insert")
+    @ApiOperation("添加书籍")
     public ResponseEntity insert(@Valid @RequestBody BookVO bookVO) {
         Book book = BeanConvertUtils.convert(bookVO, Book.class);
         bookService.insert(book);
@@ -35,12 +40,15 @@ public class BookControler {
 
     @WebLog(description = "select")
     @GetMapping("/select/{id}")
+    @ApiOperation("按id查询数据")
+    @ApiImplicitParam(name = "id", value = "id", required = true, paramType = "path", dataType = "int")
     public ResponseEntity select(@PathVariable Integer id) {
         Book book = bookService.findById(id);
         log.info("book: {}", book);
         return ResponseUtils.ok(book);
     }
 
+    @ApiOperation("书籍列表")
     @GetMapping("/selectall")
     public List<Book> selectall() {
         return bookService.selectAll();
