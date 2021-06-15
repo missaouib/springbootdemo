@@ -2,11 +2,10 @@ package com.example.demo.config;
 
 import com.example.demo.interceptor.Log2CostInterceptor;
 import com.example.demo.interceptor.LogCostInterceptor;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-@Configuration
+//@Configuration
 public class WebConfig implements WebMvcConfigurer {
 
     @Override
@@ -18,6 +17,5 @@ public class WebConfig implements WebMvcConfigurer {
                 .addPathPatterns("/**")
                 .excludePathPatterns("/book/selectall")
                 .order(1);
-
     }
 }

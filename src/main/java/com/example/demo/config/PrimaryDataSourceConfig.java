@@ -34,7 +34,6 @@ public class PrimaryDataSourceConfig {
         bean.setDataSource(datasource);
         bean.setMapperLocations(new PathMatchingResourcePatternResolver().getResources("classpath:mapper/primary/*.xml"));
         // 设置mybatis的xml所在位置
-        System.err.println(bean.getObject());
         return bean.getObject();
     }
 

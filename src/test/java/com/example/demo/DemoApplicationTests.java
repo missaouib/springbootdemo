@@ -15,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -48,8 +47,7 @@ class DemoApplicationTests {
 
     @Test
     public void test0() {
-        redisTemplate.opsForValue().set("a", "1");
-        redisTemplate.expireAt("a", new Date());
+
 
     }
 

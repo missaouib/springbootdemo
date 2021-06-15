@@ -11,10 +11,11 @@
             <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
             <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
             <!--输出日志的格式-->
-            <PatternLayout pattern="%highlight{%d{HH:mm:ss.SSS} [%t] [%level] %logger{36} - %msg%n}{FATAL=red, ERROR=red, WARN=yellow, INFO=cyan, DEBUG=cyan,TRACE=blue}" disableAnsi="false" charset="UTF-8"/>
-<!--            <PatternLayout-->
-<!--                    pattern="%style{%d{ISO8601}}{bright,green} %highlight{%-5level} [%style{%t}{bright,blue}] %style{%C{}}{bright,yellow}: %msg%n%style{%throwable}{red}"-->
-                    disableAnsi="false" noConsoleNoAnsi="false"/>
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] [%level] %logger{36} %L - %msg%n" charset="UTF-8"/>
+            <!--            <PatternLayout pattern="%highlight{%d{HH:mm:ss.SSS} [%t] [%level] %logger{36} %L- %msg%n}{FATAL=red, ERROR=red, WARN=yellow, INFO=cyan, DEBUG=cyan,TRACE=blue}" disableAnsi="false" charset="UTF-8"/>-->
+            <!--            <PatternLayout-->
+            <!--                    pattern="%style{%d{ISO8601}}{bright,green} %highlight{%-5level} [%style{%t}{bright,blue}] %style{%C{}}{bright,yellow}: %msg%n%style{%throwable}{red}"-->
+            disableAnsi="false" noConsoleNoAnsi="false"/>
             <!--            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>-->
             <!--            %d{HH:mm:ss.SSS} 表示输出到毫秒的时间-->
             <!--            %t 输出当前线程名称-->
@@ -49,9 +50,10 @@
         <logger name="com.example.demo.dao" level="debug" additivity="false">
             <appender-ref ref="Console"/>
         </logger>
-<!--        属性 level ：日志级别，如果 Appender 为指定，则使用这个-->
-<!--        子节点 AppenderRef : 指定日志输出到那个 Appender-->
-        <root level="info">
+        <!--        属性 level ：日志级别，如果 Appender 为指定，则使用这个-->
+        <!--        子节点 AppenderRef : 指定日志输出到那个 Appender-->
+        <!--        通过设置 includeLocation="true" 在异步模式下显示行号-->
+        <root level="info" includeLocation="true">
             <appender-ref ref="Console"/>
         </root>
     </loggers>

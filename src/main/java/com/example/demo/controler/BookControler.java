@@ -37,6 +37,7 @@ public class BookControler {
     @GetMapping("/select/{id}")
     public ResponseEntity select(@PathVariable Integer id) {
         Book book = bookService.findById(id);
+        log.info("book: {}", book);
         return ResponseUtils.ok(book);
     }
 
