@@ -18,6 +18,8 @@ public interface UserInfoService {
      */
     UserInfo getById(Integer id);
 
+    UserInfo getByIdAutoLoad(Integer id);
+
     /**
      * 修改用户信息
      *

@@ -21,6 +21,15 @@ public class UserInfoController {
         return userInfo;
     }
 
+    @GetMapping("/userInfoAutoLoad/{id}")
+    public Object getUserInfoAutoLoad(@PathVariable Integer id) {
+        UserInfo userInfo = userInfoService.getByIdAutoLoad(id);
+        if (userInfo == null) {
+            return "没有该用户";
+        }
+        return userInfo;
+    }
+
     @PostMapping("/userInfo")
     public Object createUserInfo(@RequestBody UserInfo userInfo) {
         userInfoService.addUserInfo(userInfo);
