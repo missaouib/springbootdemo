@@ -1,0 +1,19 @@
+singleServerConfig:
+  idleConnectionTimeout: 10000
+  connectTimeout: 10000
+  timeout: 3000
+  retryAttempts: 3
+  retryInterval: 1500
+  password: 3054491963
+  subscriptionsPerConnection: 1
+  clientName: null
+  address: "rediss://iyuki.me:16379"
+  subscriptionConnectionMinimumIdleSize: 1
+  subscriptionConnectionPoolSize: 50
+  connectionMinimumIdleSize: 2
+  connectionPoolSize: 16
+  database: 0
+threads: 2
+nettyThreads: 4
+codec: !<org.redisson.codec.JsonJacksonCodec> {}
+transportMode: NIO

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+<!--Configuration后面的status，这个用于设置log4j2自身内部的信息输出，可以不设置，当设置成trace时，你会看到log4j2内部各种详细输出-->
+<!--monitorInterval：Log4j能够自动检测修改配置 文件和重新配置本身，设置间隔秒数-->
+<configuration status="WARN" monitorInterval="30">
+    <!--先定义所有的appender-->
+    <!--appenders:定义输出内容,输出格式,输出方式,日志保存策略等,常用其下三种标签[console,File,RollingFile]-->
+    <appenders>
+        <!--这个输出控制台的配置-->
+        <console name="Console" target="SYSTEM_OUT">
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="DEBUG" onMatch="ACCEPT" onMismatch="DENY"/>
+            <!--输出日志的格式-->
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] [%level] %logger{36}:%L - %msg%n" charset="UTF-8"/>
+            <!--            <PatternLayout pattern="%highlight{%d{HH:mm:ss.SSS} [%t]:%L [%level] %logger{36} %L- %msg%n}{FATAL=red, ERROR=red, WARN=yellow, INFO=cyan, DEBUG=cyan,TRACE=blue}" disableAnsi="false" charset="UTF-8"/>-->
+            <!--            <PatternLayout-->
+            <!--                    pattern="%style{%d{ISO8601}}{bright,green} %highlight{%-5level} [%style{%t}{bright,blue}] %style{%C{}}{bright,yellow}: %msg%n%style{%throwable}{red}"-->
+            disableAnsi="false" noConsoleNoAnsi="false"/>
+            <!--            <PatternLayout pattern="[%d{HH:mm:ss:SSS}] [%p] - %l - %m%n"/>-->
+            <!--            %d{HH:mm:ss.SSS} 表示输出到毫秒的时间-->
+            <!--            %t 输出当前线程名称-->
+            <!--            %-5level 输出日志级别，-5表示左对齐并且固定输出5个字符，如果不足在右边补0-->
+            <!--            %logger 输出logger名称，因为Root Logger没有名称，所以没有输出-->
+            <!--            %msg 日志文本-->
+            <!--            %n 换行-->
+
+            <!--            其他常用的占位符有：-->
+            <!--            %F 输出所在的类文件名，如Client.java-->
+            <!--            %L 输出行号-->
+            <!--            %M 输出所在方法名-->
+            <!--            %l 输出语句所在的行数, 包括类名、方法名、文件名、行数-->
+        </console>
+    </appenders>
+    <!--然后定义logger，只有定义了logger并引入的appender，appender才会生效-->
+    <loggers>
+        <!-- root logger 配置,全局配置，默认所有的Logger都继承此配置 -->
+        <!-- AsyncRoot - 异步记录日志 - 需要LMAX Disruptor的支持 -->
+        <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
+        <!--Logger节点用来单独指定日志的形式，name为包路径,比如要为org.springframework包下所有日志指定为INFO级别等。 -->
+<!--        属性 name : package 的名称-->
+<!--        属性 level：日志级别  如果未指定级别，则默认为ERROR-->
+<!--        属性 additivity : 是否只在子节点 AppenderRef 里输出  默认true-->
+<!--        子节点 AppenderRef : 指定日志输出到那个 Appender-->
+        <logger name="org.springframework" level="INFO"/>
+        <logger name="org.mybatis" level="INFO"/>
+        <logger name="org.redisson.cluster.ClusterConnectionManager" level="INFO"/>
+        <logger name="com.example.demo.mapper" level="debug" additivity="false">
+            <appender-ref ref="Console"/>
+        </logger>
+        <logger name="com.example.demo.dao" level="debug" additivity="false">
+            <appender-ref ref="Console"/>
+        </logger>
+        <!--        属性 level ：日志级别，如果 Appender 为指定，则使用这个-->
+        <!--        子节点 AppenderRef : 指定日志输出到那个 Appender-->
+        <!--        通过设置 includeLocation="true" 在异步模式下显示行号-->
+        <root level="info" includeLocation="true">
+            <appender-ref ref="Console"/>
+        </root>
+    </loggers>
+</configuration>
