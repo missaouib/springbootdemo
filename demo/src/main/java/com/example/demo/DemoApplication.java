@@ -1,15 +1,12 @@
 package com.example.demo;
 
+import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.apache.rocketmq.client.log.ClientLogger;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.data.mongo.MongoDataAutoConfiguration;
-import org.springframework.boot.autoconfigure.mongo.MongoAutoConfiguration;
-import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.scheduling.annotation.EnableAsync;
-import org.springframework.scheduling.annotation.EnableScheduling;
 
 //@EnableCaching
+@EnableDubbo
 @SpringBootApplication
 //@EnableAsync
 //@EnableScheduling

@@ -25,7 +25,7 @@ public class GlobalExceptionHandler {
         body.put("code", ResponseCode.SERVER_ERROR.getCode());
         body.put("data", null);
         body.put("message", ResponseCode.SERVER_ERROR.getDesc() + ", " + e);
-        return ResponseUtils.serverError("");
+        return ResponseUtils.serverError("SERVER ERROR");
     }
 
     @ExceptionHandler({MethodArgumentNotValidException.class})
