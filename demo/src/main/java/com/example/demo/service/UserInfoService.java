@@ -2,6 +2,8 @@ package com.example.demo.service;
 
 import com.example.demo.entity.UserInfo;
 
+import java.util.List;
+
 public interface UserInfoService {
     /**
      * 增加用户信息
@@ -34,4 +36,6 @@ public interface UserInfoService {
      * @param id 用户ID
      */
     void deleteById(Integer id);
+
+    List<UserInfo> listByCondition(UserInfo userInfo);
 }

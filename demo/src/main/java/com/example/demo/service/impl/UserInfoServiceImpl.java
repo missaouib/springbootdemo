@@ -1,6 +1,7 @@
 package com.example.demo.service.impl;
 
 import com.example.demo.entity.UserInfo;
+import com.example.demo.entity.UserInfoExample;
 import com.example.demo.mapper.primary.UserInfoMapper;
 import com.example.demo.service.UserInfoService;
 import com.github.benmanes.caffeine.cache.Cache;
@@ -11,7 +12,9 @@ import org.checkerframework.checker.nullness.qual.NonNull;
 import org.checkerframework.checker.nullness.qual.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 @Service
@@ -122,10 +125,37 @@ public class UserInfoServiceImpl implements UserInfoService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void deleteById(Integer id) {
         log.info("delete");
         userInfoMapper.deleteByPrimaryKey(id);
         // 从缓存中删除
         caffeineCache.asMap().remove(String.valueOf(id));
+        int ii = 1/0;
+        try{
+            int i = 1/0;
+        }catch (Exception e){
+            log.info("exception");
+        }
+    }
+
+    @Override
+    public List<UserInfo> listByCondition(UserInfo userInfo) {
+        UserInfoExample example = new UserInfoExample();
+        UserInfoExample.Criteria criteria = example.createCriteria();
+        if (userInfo.getAge() != null) {
+            criteria.andAgeEqualTo(userInfo.getAge());
+        }
+        if (userInfo.getId() != null) {
+            criteria.andIdEqualTo(userInfo.getId());
+        }
+        if (userInfo.getName() != null) {
+            criteria.andNameEqualTo(userInfo.getName());
+        }
+        if (userInfo.getSex() != null) {
+            criteria.andSexEqualTo(userInfo.getSex());
+        }
+        List<UserInfo> userInfoList = userInfoMapper.selectByExample(example);
+        return userInfoList;
     }
 }
