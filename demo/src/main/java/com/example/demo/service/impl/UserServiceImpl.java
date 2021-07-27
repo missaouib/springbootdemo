@@ -1,12 +1,11 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.cache.RedisService;
 import com.example.demo.dao.UserDao;
 import com.example.demo.entity.User;
 import com.example.demo.service.UserService;
 import com.github.pagehelper.PageInfo;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.AsyncResult;
@@ -16,7 +15,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.Future;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 @Service
@@ -24,7 +22,7 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private UserDao userDao;
     @Autowired
-    private RedissonClient redissonClient;
+    private RedisService redisService;
     @Autowired
     private ThreadPoolTaskExecutor threadPoolTaskExecutor;
 
@@ -134,25 +132,5 @@ public class UserServiceImpl implements UserService {
         long end = System.currentTimeMillis();
         log.error("完成任务3，耗时：" + (end - start) + "毫秒");
         return new AsyncResult<>("任务3完成");
-    }
-
-
-    public void redisLock() {
-        RLock rLock = redissonClient.getLock("myLock");
-        rLock.lock(10, TimeUnit.SECONDS);
-        RLock disLock = redissonClient.getLock("DISLOCK");
-        boolean isLock;
-        try {
-            //尝试获取分布式锁
-            isLock = disLock.tryLock(500, 15000, TimeUnit.MILLISECONDS);
-            if (isLock) {
-                //TODO if get lock success, do something;
-                Thread.sleep(15000);
-            }
-        } catch (Exception e) {
-        } finally {
-            // 无论如何, 最后都要解锁
-            disLock.unlock();
-        }
     }
 }

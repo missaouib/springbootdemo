@@ -1,10 +1,10 @@
 package com.example.demo.service.impl;
 
+import com.example.demo.cache.RedisService;
 import com.example.demo.entity.Blog;
 import com.example.demo.entity.BlogExample;
 import com.example.demo.mapper.secondary.BlogMapper;
 import com.example.demo.service.BlogServer;
-import com.example.demo.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +17,7 @@ public class BlogServerImpl implements BlogServer {
     @Autowired(required = false)
     private BlogMapper blogMapper;
     @Autowired
-    private RedisUtil redisUtil;
+    private RedisService redisService;
     @Override
     public List<Blog> selectAll() {
         BlogExample example = new BlogExample();
@@ -26,7 +26,7 @@ public class BlogServerImpl implements BlogServer {
 
     @Override
     public Blog findById(int id) {
-        Blog blog = (Blog) redisUtil.get("blog:" + id);
+        Blog blog = (Blog) redisService.get("blog:" + id);
         if (blog == null) {
             System.out.println("from db");
             return blogMapper.selectByPrimaryKey(id);

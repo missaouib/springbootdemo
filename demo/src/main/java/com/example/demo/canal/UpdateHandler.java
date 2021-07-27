@@ -35,7 +35,7 @@ public class UpdateHandler extends AbstractHandler {
             List<Column> afterColumnsList = rowData.getAfterColumnsList();
             Blog blog = super.columnsToBean(afterColumnsList, Blog.class);
             String id = blog.getId().toString();
-            redisUtil.setDefault("blog:" + id, blog);
+            redisService.set("blog:" + id, blog);
             log.info("更新后数据：{}\r\n", blog.toString());
             /**
              *  高并发下，为保证数据一致性，当数据库更新后，不建议去更新缓存，

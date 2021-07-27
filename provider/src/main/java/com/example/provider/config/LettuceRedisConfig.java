@@ -1,37 +1,31 @@
-package com.example.demo.config;
+package com.example.provider.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
-import org.redisson.Redisson;
-import org.redisson.api.RedissonClient;
-import org.redisson.config.Config;
-import org.redisson.spring.data.connection.RedissonConnectionFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
+import org.springframework.data.redis.cache.RedisCacheManager;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import java.io.IOException;
-
 @Configuration
-public class RedissonConfig {
+public class LettuceRedisConfig {
 
+    /**
+     * 缓存管理器
+     *
+     * @param connectionFactory
+     * @return
+     */
     @Bean
-    public RedissonClient redissonClient(@Value("classpath:redisson-single.yaml") Resource configFile) throws IOException {
-        Config config = Config.fromYAML(configFile.getInputStream());
-        return Redisson.create(config);
+    public RedisCacheManager cacheManager(RedisConnectionFactory connectionFactory) {
+        return RedisCacheManager.create(connectionFactory);
     }
 
-    @Bean
-    public RedissonConnectionFactory redissonConnectionFactory(RedissonClient redisson) {
-        return new RedissonConnectionFactory(redisson);
-    }
 
     @Bean
     public RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory factory) {
@@ -43,7 +37,7 @@ public class RedissonConfig {
         StringRedisSerializer stringRedisSerializer = new StringRedisSerializer();
         // 使用StringRedisSerializer来序列化和反序列化redis的key值
         redisTemplate.setKeySerializer(stringRedisSerializer);
-//        redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
+        //  redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
         redisTemplate.setValueSerializer(serializer());
 
         //hashKey hashValue
@@ -67,5 +61,4 @@ public class RedissonConfig {
         jackson2JsonRedisSerializer.setObjectMapper(objectMapper);
         return jackson2JsonRedisSerializer;
     }
-
 }

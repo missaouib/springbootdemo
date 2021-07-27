@@ -1,15 +1,19 @@
 package com.example.demo.controler;
 
+import com.example.demo.cache.RedisService;
 import com.example.demo.entity.Blog;
 import com.example.demo.service.BlogServer;
-import com.example.demo.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 @Slf4j
@@ -17,7 +21,7 @@ import java.util.Random;
 public class BlogController {
 
     @Autowired
-    private RedisUtil redisUtil;
+    private RedisService redisService;
 
     @Autowired
     private BlogServer blogServer;
@@ -55,11 +59,11 @@ public class BlogController {
 
     @GetMapping("find/{id}")
     public String find(@PathVariable int id) {
-        Blog blog = (Blog) redisUtil.get("blog:" + id);
+        Blog blog = (Blog) redisService.get("blog:" + id);
         if (blog == null) {
             blog = blogServer.findById(id);
         }
-        redisUtil.set("blog:"+id,blog,30*60);
+        redisService.set("blog:" + id, blog, 30 * 60, TimeUnit.SECONDS);
         return blog == null ? "null" : blog.toString();
     }
 

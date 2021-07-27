@@ -14,7 +14,7 @@ public class HelloServiceImpl implements HelloService {
 
     @Override
     public String sayHello(String name) {
-        log.info("{}",String.format("[%s] : Hello, %s", serviceName, name));
+        log.info("{}", String.format("[%s] : Hello, %s", serviceName, name));
         return String.format("[%s] : Hello, %s", serviceName, name);
     }
 }

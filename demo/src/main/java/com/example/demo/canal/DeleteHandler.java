@@ -30,7 +30,7 @@ public class DeleteHandler extends AbstractHandler {
                 if ("id".equals(column.getName())) {
                     //清除 redis 缓存
                     log.info("清除 Redis 缓存 key={} 成功!\r\n", "blog:" + column.getValue());
-                    redisUtil.del("blog:" + column.getValue());
+                    redisService.delete("blog:" + column.getValue());
                 }
             });
         });

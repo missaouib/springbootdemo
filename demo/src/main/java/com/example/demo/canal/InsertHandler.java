@@ -32,7 +32,7 @@ public class InsertHandler extends AbstractHandler {
             Blog blog = super.columnsToBean(afterColumnsList, Blog.class);
             String id = blog.getId().toString();
             log.info("新增的数据：{}\r\n", blog.toString());
-            redisUtil.setDefault("blog:" + id, blog);
+            redisService.set("blog:" + id, blog);
         });
     }
 

@@ -4,7 +4,7 @@ import com.alibaba.otter.canal.protocol.CanalEntry.Column;
 import com.alibaba.otter.canal.protocol.CanalEntry.Entry;
 import com.alibaba.otter.canal.protocol.CanalEntry.EventType;
 import com.alibaba.otter.canal.protocol.CanalEntry.RowChange;
-import com.example.demo.util.RedisUtil;
+import com.example.demo.cache.RedisService;
 import com.google.protobuf.InvalidProtocolBufferException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,7 +32,7 @@ public abstract class AbstractHandler {
     protected EventType eventType;
 
     @Autowired
-    protected RedisUtil redisUtil;
+    protected RedisService redisService;
 
 
     /**
