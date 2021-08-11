@@ -1,12 +1,12 @@
 package com.example.demo.service.impl;
 
-import com.alibaba.fastjson.JSON;
 import com.example.demo.dao.OrderDao;
 import com.example.demo.dao.TransactionLogDao;
 import com.example.demo.entity.Order;
 import com.example.demo.entity.TransactionLog;
 import com.example.demo.service.OrderService;
 import com.example.demo.util.SnowFlake;
+import com.example.demo.util.json.JsonUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.TransactionMQProducer;
@@ -24,10 +24,11 @@ public class OrderServiceImpl implements OrderService {
     private OrderDao orderDao;
     @Autowired
     TransactionLogDao transactionLogDao;
-//    @Autowired
-//    TransactionMQProducer producer;
+    @Autowired(required = false)
+    TransactionMQProducer producer;
 
-    SnowFlake snowflake = new SnowFlake(1,1);
+    SnowFlake snowflake = new SnowFlake(1, 1);
+
     @Override
     public Order findById(Long id) {
         return orderDao.findById(id);
@@ -51,7 +52,7 @@ public class OrderServiceImpl implements OrderService {
     //执行本地事务时调用，将订单数据和事务日志写入本地数据库
     @Transactional(rollbackFor = Exception.class)
     @Override
-    public void createOrder(Order order,String transactionId){
+    public void createOrder(Order order, String transactionId) {
 
         //1.创建订单
         orderDao.insert(order);
@@ -63,7 +64,7 @@ public class OrderServiceImpl implements OrderService {
         transactionLog.setForeignKey(String.valueOf(order.getId()));
         transactionLogDao.insert(transactionLog);
 
-        log.info("订单创建完成 {}",order);
+        log.info("订单创建完成 {}", order);
     }
 
     //前端调用，只用于向RocketMQ发送事务消息
@@ -72,9 +73,9 @@ public class OrderServiceImpl implements OrderService {
         order.setId(snowflake.nextId());
         order.setOrderNo(snowflake.nextId());
         Message message = new Message();
-        message.setBody(JSON.toJSONString(order).getBytes("utf-8"));
+        message.setBody(JsonUtil.toJsonString(order).getBytes());
         message.setTopic("order");
-//        producer.sendMessageInTransaction(message,"order");
+        producer.sendMessageInTransaction(message, "order");
     }
 
 }

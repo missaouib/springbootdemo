@@ -26,8 +26,8 @@ public class MqControler {
      * 基于 field 注入
      * 没有启动rocketmq服务端，故不加载 DefaultMQProducer
      */
-//    @Autowired
-//    private DefaultMQProducer defaultMQProducer;
+    @Autowired(required = false)
+    private DefaultMQProducer defaultMQProducer;
 
     @Autowired
     private KafkaSender kafkaSender;
@@ -38,8 +38,8 @@ public class MqControler {
         Message msg = new Message(TOPIC, TAGS, ("Hello RocketMQ").getBytes(RemotingHelper.DEFAULT_CHARSET));
 
         // 调用客户端发送消息 同步
-//        SendResult sendResult = defaultMQProducer.send(msg);
-//        log.info("sendResult: {}.", sendResult);
+        SendResult sendResult = defaultMQProducer.send(msg);
+        log.info("sendResult: {}.", sendResult);
         return "SUCCESS";
     }
 
@@ -50,8 +50,8 @@ public class MqControler {
             messages.add(new Message(TOPIC, TAGS, ("Hello RocketMQ").getBytes(RemotingHelper.DEFAULT_CHARSET)));
         }
         // 调用客户端发送消息 同步
-//        SendResult sendResult = defaultMQProducer.send(messages);
-//        log.info("sendResult: {}.", sendResult);
+        SendResult sendResult = defaultMQProducer.send(messages);
+        log.info("sendResult: {}.", sendResult);
         return "SUCCESS";
     }
 
@@ -59,17 +59,17 @@ public class MqControler {
     public String sendAsync() throws Throwable {
         Message msg = new Message(TOPIC, TAGS, ("Hello RocketMQ").getBytes(RemotingHelper.DEFAULT_CHARSET));
         // 异步发送消息
-//        defaultMQProducer.send(msg, new SendCallback() {
-//            @Override
-//            public void onSuccess(SendResult sendResult) {
-//                log.info("sendResult: {}.", sendResult);
-//            }
-//
-//            @Override
-//            public void onException(Throwable e) {
-//                log.error("发送失败 异常：{}", e);
-//            }
-//        });
+        defaultMQProducer.send(msg, new SendCallback() {
+            @Override
+            public void onSuccess(SendResult sendResult) {
+                log.info("sendResult: {}.", sendResult);
+            }
+
+            @Override
+            public void onException(Throwable e) {
+                log.error("发送失败 异常：{}", e);
+            }
+        });
         return "SUCCESS";
     }
 

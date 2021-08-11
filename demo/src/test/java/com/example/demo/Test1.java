@@ -71,14 +71,3 @@ class AA {
     private List<Book> list;
     private Map<String, Integer> map;
 }
-
-
-class BB{
-    private int a;
-    private int b;
-}
-
-class CC{
-    private int a;
-    private int b;
-}
