@@ -33,12 +33,11 @@
         <redisson.version>3.14.0</redisson.version>
         <spring-kafka.version>2.5.7.RELEASE</spring-kafka.version>
         <rocketmq-client.version>4.7.0</rocketmq-client.version>
-        <guava.version>29.0-jre</guava.version>
+        <guava.version>30.1.1-jre</guava.version>
         <gson.version>2.8.6</gson.version>
         <lombok.version>1.18.16</lombok.version>
-        <mapstruct.version>1.4.1.Final</mapstruct.version>
-        <elasticjob-lite-core.version>3.0.0-beta</elasticjob-lite-core.version>
-        <elasticjob.version>3.0.0-beta</elasticjob.version>
+        <mapstruct.version>1.4.2.Final</mapstruct.version>
+        <elasticjob-lite-core.version>3.0.0</elasticjob-lite-core.version>
         <canal.client.version>1.1.4</canal.client.version>
         <jmh.version>1.28</jmh.version>
         <hutool-all.version>3.0.7</hutool-all.version>
@@ -106,11 +105,11 @@
                 <version>${redisson.version}</version>
             </dependency>
 
-            <!--        <dependency>-->
-            <!--            <groupId>com.xiaoleilu</groupId>-->
-            <!--            <artifactId>hutool-all</artifactId>-->
-            <!--            <version>3.0.7</version>-->
-            <!--        </dependency>-->
+            <dependency>
+                <groupId>com.xiaoleilu</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>3.0.7</version>
+            </dependency>
 
             <dependency>
                 <groupId>redis.clients</groupId>
@@ -176,12 +175,6 @@
                 <version>${pagehelper.version}</version>
             </dependency>
 
-            <!--                <dependency>-->
-            <!--                    <groupId>org.apache.shardingsphere</groupId>-->
-            <!--                    <artifactId>sharding-jdbc-spring-boot-starter</artifactId>-->
-            <!--                    <version>${sharding-jdbc.version}</version>-->
-            <!--                </dependency>-->
-
             <dependency>
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
@@ -214,11 +207,11 @@
                 <version>${spring-kafka.version}</version>
             </dependency>
 
-            <!--                <dependency>-->
-            <!--                    <groupId>org.apache.rocketmq</groupId>-->
-            <!--                    <artifactId>rocketmq-spring-boot-starter</artifactId>-->
-            <!--                    <version>${rocketmq-spring-boot-starter.version}</version>-->
-            <!--                </dependency>-->
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-spring-boot-starter</artifactId>
+                <version>${rocketmq-spring-boot-starter.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.apache.rocketmq</groupId>
@@ -226,16 +219,22 @@
                 <version>${rocketmq-client.version}</version>
             </dependency>
 
-            <!--        <dependency>-->
-            <!--            <groupId>org.apache.shardingsphere.elasticjob</groupId>-->
-            <!--            <artifactId>elasticjob-lite-core</artifactId>-->
-            <!--            <version>${elasticjob-lite-core.version}</version>-->
-            <!--        </dependency>-->
-            <!--        <dependency>-->
-            <!--            <groupId>com.dangdang</groupId>-->
-            <!--            <artifactId>elastic-job-lite-core</artifactId>-->
-            <!--            <version>2.1.5</version>-->
-            <!--        </dependency>-->
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>sharding-jdbc-spring-boot-starter</artifactId>
+                <version>${sharding-jdbc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.shardingsphere</groupId>
+                <artifactId>sharding-core-common</artifactId>
+                <version>${sharding-jdbc.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.shardingsphere.elasticjob</groupId>
+                <artifactId>elasticjob-lite-core</artifactId>
+                <version>${elasticjob-lite-core.version}</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.apache.shardingsphere.elasticjob</groupId>
@@ -293,21 +292,21 @@
         </dependencies>
     </dependencyManagement>
 
-        <build>
-            <plugins>
-<!--                该插件作用是打一个可运行的包，必须要写在需要打包的项目里。这里的父模块不需要打包运行，所以删掉该插件。-->
-                <plugin>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-maven-plugin</artifactId>
-                </plugin>
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>versions-maven-plugin</artifactId>
-                    <version>2.8.1</version>
-                    <configuration>
-                        <generateBackupPoms>false</generateBackupPoms>
-                    </configuration>
-                </plugin>
-            </plugins>
-        </build>
+    <build>
+        <plugins>
+            <!--                该插件作用是打一个可运行的包，必须要写在需要打包的项目里。这里的父模块不需要打包运行，所以删掉该插件。-->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.8.1</version>
+                <configuration>
+                    <generateBackupPoms>false</generateBackupPoms>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 </project>

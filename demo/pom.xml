@@ -100,11 +100,6 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>com.xiaoleilu</groupId>-->
-        <!--            <artifactId>hutool-all</artifactId>-->
-        <!--        </dependency>-->
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-validation</artifactId>
@@ -203,11 +198,7 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>org.springframework.boot</groupId>-->
-        <!--            <artifactId>spring-boot-devtools</artifactId>-->
-        <!--            <optional>true</optional>-->
-        <!--        </dependency>-->
+
         <dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
@@ -229,11 +220,6 @@
             <artifactId>pagehelper-spring-boot-starter</artifactId>
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>org.apache.shardingsphere</groupId>-->
-        <!--            <artifactId>sharding-jdbc-spring-boot-starter</artifactId>-->
-        <!--            <version>${sharding-jdbc.version}</version>-->
-        <!--        </dependency>-->
 
         <dependency>
             <groupId>com.google.guava</groupId>
@@ -262,27 +248,17 @@
             <artifactId>spring-kafka</artifactId>
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>org.apache.rocketmq</groupId>-->
-        <!--            <artifactId>rocketmq-spring-boot-starter</artifactId>-->
-        <!--            <version>2.1.0</version>-->
-        <!--        </dependency>-->
-
         <dependency>
             <groupId>org.apache.rocketmq</groupId>
             <artifactId>rocketmq-client</artifactId>
         </dependency>
 
-        <!--        <dependency>-->
-        <!--            <groupId>org.apache.shardingsphere.elasticjob</groupId>-->
-        <!--            <artifactId>elasticjob-lite-core</artifactId>-->
-        <!--            <version>${elasticjob-lite-core.version}</version>-->
-        <!--        </dependency>-->
-        <!--        <dependency>-->
-        <!--            <groupId>com.dangdang</groupId>-->
-        <!--            <artifactId>elastic-job-lite-core</artifactId>-->
-        <!--            <version>2.1.5</version>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>org.apache.shardingsphere.elasticjob</groupId>
+            <artifactId>elasticjob-lite-core</artifactId>
+            <version>${elasticjob-lite-core.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.apache.shardingsphere.elasticjob</groupId>
             <artifactId>elasticjob-lite-spring-boot-starter</artifactId>
