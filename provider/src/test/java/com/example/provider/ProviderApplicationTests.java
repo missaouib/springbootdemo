@@ -42,17 +42,31 @@ class ProviderApplicationTests {
         System.err.println(redisService.get("a2"));
         redisService.rename("a", "a1");
         Set<String> set = new HashSet<>();
-        redisService.sAdd("setKey","a","b","c");
-        redisService.sAdd("setKey1","a","b","d");
+        redisService.sAdd("setKey", "a", "b", "c");
+        redisService.sAdd("setKey1", "a", "b", "d");
         Set<Object> sIntersect = redisService.sIntersect("setKey", "setKey1");
         System.err.println(sIntersect);
     }
 
+
+    @Test
+    void test2() {
+        redisService.set("ss", "ssr");
+        A a = new A();
+        a.setI(1);
+        a.setB(2);
+        a.setStr("ssr");
+        redisService.set("aaaa", a);
+        System.out.println(redisService.get("aaaa"));
+    }
+
+    @Data
+    private static class A {
+        private Integer i;
+        private int b;
+        private String str;
+    }
+
 }
 
-@Data
-class A {
-    private Integer i;
-    private int b;
-    private String str;
-}
+

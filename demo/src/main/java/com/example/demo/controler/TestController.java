@@ -18,7 +18,7 @@ public class TestController {
 
     @Autowired
     private UserService userService;
-//
+
     @DubboReference
     private HelloService helloService;
 

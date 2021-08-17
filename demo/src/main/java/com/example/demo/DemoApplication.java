@@ -13,7 +13,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DemoApplication {
 
     public static void main(String[] args) {
-        System.setProperty(ClientLogger.CLIENT_LOG_LEVEL,"WARN");
+        System.setProperty(ClientLogger.CLIENT_LOG_LEVEL, "WARN");
+//        System.setProperty(ClientLogger.CLIENT_LOG_USESLF4J, "true");
+        System.setProperty(ClientLogger.CLIENT_LOG_ROOT, "demo/log");
         SpringApplication.run(DemoApplication.class, args);
     }
 }
