@@ -1,4 +1,4 @@
-package com.example.demo.controler;
+package com.example.demo.controller;
 
 import com.example.demo.entity.mongodb.User;
 import com.example.demo.mongo.*;

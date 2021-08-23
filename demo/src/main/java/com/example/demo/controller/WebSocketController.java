@@ -1,4 +1,4 @@
-package com.example.demo.controler;
+package com.example.demo.controller;
 
 import com.example.demo.websocket.SocketServer;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,4 +1,4 @@
-package com.example.demo.controler;
+package com.example.demo.controller;
 
 import com.example.demo.util.TokenUtilService;
 import lombok.extern.slf4j.Slf4j;

@@ -1,4 +1,4 @@
-package com.example.demo.controler;
+package com.example.demo.controller;
 
 import com.example.demo.VO.BookVO;
 import com.example.demo.aspect.WebLog;
