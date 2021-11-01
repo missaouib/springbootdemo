@@ -24,3 +24,12 @@ KafkaReceiver.java 中注释 `@KafkaListener`
 ## 关闭mongoDB
 1. service `@Autowired(required = false)`
 2. `@SpringBootApplication(exclude = {MongoAutoConfiguration.class, MongoDataAutoConfiguration.class})`
+
+## 网页
+文件上传 : http://127.0.0.1:8088/file/upload
+```java
+    @GetMapping(value = "/upload")
+    public String upload(){
+        return "upload";
+    }
+```

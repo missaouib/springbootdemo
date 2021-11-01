@@ -14,13 +14,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @Slf4j
 @RequestMapping("/")
 public class IndexController {
-    @GetMapping("/")
-    public String home() {
-        return "Hello World";
+    @GetMapping()
+    public String index() {
+        return "index";
     }
 
-    @GetMapping("/health")
+    @GetMapping("health")
     public int health() {
         return 0;
+    }
+
+    @GetMapping("favicon.ico")
+    public void favicon() {
+        return;
     }
 }
