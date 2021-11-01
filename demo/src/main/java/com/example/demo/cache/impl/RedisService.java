@@ -1,6 +1,7 @@
 package com.example.demo.cache.impl;
 
 import com.example.demo.cache.RedisService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.connection.DataType;
 import org.springframework.data.redis.core.Cursor;
@@ -13,11 +14,11 @@ import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 @Component
+@Slf4j
 class RedisServiceImpl implements RedisService {
 
     @Autowired
     private RedisTemplate redisTemplate;
-
 
 
     /** -------------------key相关操作--------------------- */
@@ -194,6 +195,7 @@ class RedisServiceImpl implements RedisService {
 
     /**
      * 设置指定 key 的值
+     *
      * @param key
      * @param value
      */
@@ -208,7 +210,7 @@ class RedisServiceImpl implements RedisService {
      * @param key
      * @param value
      * @param timeout 过期时间
-     * @param unit  时间单位
+     * @param unit    时间单位
      */
     @Override
     public void set(String key, Object value, long timeout, TimeUnit unit) {
@@ -217,6 +219,7 @@ class RedisServiceImpl implements RedisService {
 
     /**
      * 获取指定 key 的值
+     *
      * @param key
      * @return
      */
@@ -227,6 +230,7 @@ class RedisServiceImpl implements RedisService {
 
     /**
      * 返回 key 中字符串值的子字符
+     *
      * @param key
      * @param start
      * @param end
@@ -276,12 +280,12 @@ class RedisServiceImpl implements RedisService {
      * 设置ASCII码, 字符串'a'的ASCII码是97, 转为二进制是'01100001', 此方法是将二进制第offset位值变为value
      *
      * @param key
-     * @param offset    位置
-     * @param value     值,true为1, false为0
+     * @param offset 位置
+     * @param value  值,true为1, false为0
      * @return
      */
     @Override
-    public boolean setBit(String key, long offset, boolean value) {
+    public Boolean setBit(String key, long offset, boolean value) {
         return redisTemplate.opsForValue().setBit(key, offset, value);
     }
 
@@ -290,10 +294,10 @@ class RedisServiceImpl implements RedisService {
      *
      * @param key
      * @param value
-     * @return 之前已经存在返回false,不存在返回true
+     * @return 之前已经存在返回false, 不存在返回true
      */
     @Override
-    public boolean setIfAbsent(String key, Object value) {
+    public Boolean setIfAbsent(String key, Object value) {
         return redisTemplate.opsForValue().setIfAbsent(key, value);
     }
 
@@ -334,10 +338,10 @@ class RedisServiceImpl implements RedisService {
      * 同时设置一个或多个 key-value 对，当且仅当所有给定 key 都不存在
      *
      * @param maps
-     * @return 之前已经存在返回false,不存在返回true
+     * @return 之前已经存在返回false, 不存在返回true
      */
     @Override
-    public boolean multiSetIfAbsent(Map<String, Object> maps) {
+    public Boolean multiSetIfAbsent(Map<String, Object> maps) {
         return redisTemplate.opsForValue().multiSetIfAbsent(maps);
     }
 
@@ -354,7 +358,6 @@ class RedisServiceImpl implements RedisService {
     }
 
     /**
-     *
      * @param key
      * @param increment
      * @return
@@ -549,10 +552,8 @@ class RedisServiceImpl implements RedisService {
      * 获取列表指定范围内的元素
      *
      * @param key
-     * @param start
-     *            开始位置, 0是开始位置
-     * @param end
-     *            结束位置, -1返回所有
+     * @param start 开始位置, 0是开始位置
+     * @param end   结束位置, -1返回所有
      * @return
      */
     @Override
@@ -573,7 +574,6 @@ class RedisServiceImpl implements RedisService {
     }
 
     /**
-     *
      * @param key
      * @param value
      * @return
@@ -584,7 +584,6 @@ class RedisServiceImpl implements RedisService {
     }
 
     /**
-     *
      * @param key
      * @param value
      * @return
@@ -620,7 +619,6 @@ class RedisServiceImpl implements RedisService {
     }
 
     /**
-     *
      * @param key
      * @param value
      * @return
@@ -631,7 +629,6 @@ class RedisServiceImpl implements RedisService {
     }
 
     /**
-     *
      * @param key
      * @param value
      * @return
@@ -642,7 +639,6 @@ class RedisServiceImpl implements RedisService {
     }
 
     /**
-     *
      * @param key
      * @param value
      * @return
@@ -681,8 +677,7 @@ class RedisServiceImpl implements RedisService {
      * 通过索引设置列表元素的值
      *
      * @param key
-     * @param index
-     *            位置
+     * @param index 位置
      * @param value
      */
     @Override
@@ -705,10 +700,8 @@ class RedisServiceImpl implements RedisService {
      * 移出并获取列表的第一个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止
      *
      * @param key
-     * @param timeout
-     *            等待时间
-     * @param unit
-     *            时间单位
+     * @param timeout 等待时间
+     * @param unit    时间单位
      * @return
      */
     @Override
@@ -731,10 +724,8 @@ class RedisServiceImpl implements RedisService {
      * 移出并获取列表的最后一个元素， 如果列表没有元素会阻塞列表直到等待超时或发现可弹出元素为止
      *
      * @param key
-     * @param timeout
-     *            等待时间
-     * @param unit
-     *            时间单位
+     * @param timeout 等待时间
+     * @param unit    时间单位
      * @return
      */
     @Override
@@ -775,9 +766,8 @@ class RedisServiceImpl implements RedisService {
      * 删除集合中值等于value得元素
      *
      * @param key
-     * @param index
-     *            index=0, 删除所有值等于value的元素; index>0, 从头部开始删除第一个值等于value的元素;
-     *            index<0, 从尾部开始删除第一个值等于value的元素;
+     * @param index index=0, 删除所有值等于value的元素; index>0, 从头部开始删除第一个值等于value的元素;
+     *              index<0, 从尾部开始删除第一个值等于value的元素;
      * @param value
      * @return
      */
@@ -1086,7 +1076,6 @@ class RedisServiceImpl implements RedisService {
     }
 
     /**
-     *
      * @param key
      * @param options
      * @return
@@ -1112,7 +1101,6 @@ class RedisServiceImpl implements RedisService {
     }
 
     /**
-     *
      * @param key
      * @param values
      * @return
@@ -1123,7 +1111,6 @@ class RedisServiceImpl implements RedisService {
     }
 
     /**
-     *
      * @param key
      * @param values
      * @return
@@ -1174,10 +1161,8 @@ class RedisServiceImpl implements RedisService {
      * 获取集合的元素, 从小到大排序
      *
      * @param key
-     * @param start
-     *            开始位置
-     * @param end
-     *            结束位置, -1查询所有
+     * @param start 开始位置
+     * @param end   结束位置, -1查询所有
      * @return
      */
     @Override
@@ -1203,10 +1188,8 @@ class RedisServiceImpl implements RedisService {
      * 根据Score值查询集合元素
      *
      * @param key
-     * @param min
-     *            最小值
-     * @param max
-     *            最大值
+     * @param min 最小值
+     * @param max 最大值
      * @return
      */
     @Override
@@ -1218,10 +1201,8 @@ class RedisServiceImpl implements RedisService {
      * 根据Score值查询集合元素, 从小到大排序
      *
      * @param key
-     * @param min
-     *            最小值
-     * @param max
-     *            最大值
+     * @param min 最小值
+     * @param max 最大值
      * @return
      */
     @Override
@@ -1231,7 +1212,6 @@ class RedisServiceImpl implements RedisService {
     }
 
     /**
-     *
      * @param key
      * @param min
      * @param max
@@ -1283,7 +1263,7 @@ class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public Set<String> zReverseRangeByScore(String key, double min,
+    public Set<Object> zReverseRangeByScore(String key, double min,
                                             double max) {
         return redisTemplate.opsForZSet().reverseRangeByScore(key, min, max);
     }
@@ -1297,14 +1277,12 @@ class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public Set<ZSetOperations.TypedTuple<String>> zReverseRangeByScoreWithScores(
+    public Set<ZSetOperations.TypedTuple<Object>> zReverseRangeByScoreWithScores(
             String key, double min, double max) {
-        return redisTemplate.opsForZSet().reverseRangeByScoreWithScores(key,
-                min, max);
+        return redisTemplate.opsForZSet().reverseRangeByScoreWithScores(key, min, max);
     }
 
     /**
-     *
      * @param key
      * @param min
      * @param max
@@ -1313,10 +1291,9 @@ class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public Set<String> zReverseRangeByScore(String key, double min,
+    public Set<Object> zReverseRangeByScore(String key, double min,
                                             double max, long start, long end) {
-        return redisTemplate.opsForZSet().reverseRangeByScore(key, min, max,
-                start, end);
+        return redisTemplate.opsForZSet().reverseRangeByScore(key, min, max, start, end);
     }
 
     /**
@@ -1406,7 +1383,6 @@ class RedisServiceImpl implements RedisService {
     }
 
     /**
-     *
      * @param key
      * @param otherKeys
      * @param destKey
@@ -1450,7 +1426,6 @@ class RedisServiceImpl implements RedisService {
     }
 
     /**
-     *
      * @param key
      * @param options
      * @return

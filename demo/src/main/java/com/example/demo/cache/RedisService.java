@@ -202,7 +202,7 @@ public interface RedisService {
      * @param value  值,true为1, false为0
      * @return
      */
-    boolean setBit(String key, long offset, boolean value);
+    Boolean setBit(String key, long offset, boolean value);
 
     /**
      * 只有在 key 不存在时设置 key 的值
@@ -211,7 +211,7 @@ public interface RedisService {
      * @param value
      * @return 之前已经存在返回false, 不存在返回true
      */
-    boolean setIfAbsent(String key, Object value);
+    Boolean setIfAbsent(String key, Object value);
 
     /**
      * 用 value 参数覆写给定 key 所储存的字符串值，从偏移量 offset 开始
@@ -243,7 +243,7 @@ public interface RedisService {
      * @param maps
      * @return 之前已经存在返回false, 不存在返回true
      */
-    boolean multiSetIfAbsent(Map<String, Object> maps);
+    Boolean multiSetIfAbsent(Map<String, Object> maps);
 
     /**
      * 增加(自增长), 负数则为自减
@@ -921,7 +921,7 @@ public interface RedisService {
      * @param max
      * @return
      */
-    Set<String> zReverseRangeByScore(String key, double min,
+    Set<Object> zReverseRangeByScore(String key, double min,
                                      double max);
 
     /**
@@ -932,7 +932,7 @@ public interface RedisService {
      * @param max
      * @return
      */
-    Set<ZSetOperations.TypedTuple<String>> zReverseRangeByScoreWithScores(
+    Set<ZSetOperations.TypedTuple<Object>> zReverseRangeByScoreWithScores(
             String key, double min, double max);
 
     /**
@@ -943,7 +943,7 @@ public interface RedisService {
      * @param end
      * @return
      */
-    Set<String> zReverseRangeByScore(String key, double min,
+    Set<Object> zReverseRangeByScore(String key, double min,
                                      double max, long start, long end);
 
     /**
