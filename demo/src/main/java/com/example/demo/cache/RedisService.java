@@ -296,9 +296,9 @@ public interface RedisService {
      */
     List<Object> hMultiGet(String key, Collection<Object> fields);
 
-    void hPut(String key, String hashKey, String value);
+    void hPut(String key, String hashKey, Object value);
 
-    void hPutAll(String key, Map<String, String> maps);
+    void hPutAll(String key, Map<String, Object> maps);
 
     /**
      * 仅当hashKey不存在时才设置
@@ -645,7 +645,7 @@ public interface RedisService {
      * @param otherKeys
      * @return
      */
-    Set<Object> sIntersect(String key, Collection<Object> otherKeys);
+    Set<Object> sIntersect(String key, Collection<String> otherKeys);
 
     /**
      * key集合与otherKey集合的交集存储到destKey集合中
@@ -704,7 +704,7 @@ public interface RedisService {
      * @param destKey
      * @return
      */
-    Long sUnionAndStore(String key, Collection<Object> otherKeys,
+    Long sUnionAndStore(String key, Collection<String> otherKeys,
                         String destKey);
 
     /**
@@ -714,7 +714,7 @@ public interface RedisService {
      * @param otherKey
      * @return
      */
-    Set<String> sDifference(String key, String otherKey);
+    Set<Object> sDifference(String key, String otherKey);
 
     /**
      * 获取key集合与多个集合的差集
@@ -723,7 +723,7 @@ public interface RedisService {
      * @param otherKeys
      * @return
      */
-    Set<String> sDifference(String key, Collection<String> otherKeys);
+    Set<Object> sDifference(String key, Collection<String> otherKeys);
 
     /**
      * key集合与otherKey集合的差集存储到destKey中
@@ -802,7 +802,7 @@ public interface RedisService {
      * @param values
      * @return
      */
-    Long zAdd(String key, Set<ZSetOperations.TypedTuple<String>> values);
+    Long zAdd(String key, Set<ZSetOperations.TypedTuple<Object>> values);
 
     /**
      * @param key
@@ -847,7 +847,7 @@ public interface RedisService {
      * @param end   结束位置, -1查询所有
      * @return
      */
-    Set<String> zRange(String key, long start, long end);
+    Set<Object> zRange(String key, long start, long end);
 
     /**
      * 获取集合元素, 并且把score值也获取
@@ -857,7 +857,7 @@ public interface RedisService {
      * @param end
      * @return
      */
-    Set<ZSetOperations.TypedTuple<String>> zRangeWithScores(String key, long start,
+    Set<ZSetOperations.TypedTuple<Object>> zRangeWithScores(String key, long start,
                                                             long end);
 
     /**
@@ -868,7 +868,7 @@ public interface RedisService {
      * @param max 最大值
      * @return
      */
-    Set<String> zRangeByScore(String key, double min, double max);
+    Set<Object> zRangeByScore(String key, double min, double max);
 
     /**
      * 根据Score值查询集合元素, 从小到大排序
@@ -878,7 +878,7 @@ public interface RedisService {
      * @param max 最大值
      * @return
      */
-    Set<ZSetOperations.TypedTuple<String>> zRangeByScoreWithScores(String key,
+    Set<ZSetOperations.TypedTuple<Object>> zRangeByScoreWithScores(String key,
                                                                    double min, double max);
 
     /**
@@ -889,7 +889,7 @@ public interface RedisService {
      * @param end
      * @return
      */
-    Set<ZSetOperations.TypedTuple<String>> zRangeByScoreWithScores(String key,
+    Set<ZSetOperations.TypedTuple<Object>> zRangeByScoreWithScores(String key,
                                                                    double min, double max, long start, long end);
 
     /**
@@ -900,7 +900,7 @@ public interface RedisService {
      * @param end
      * @return
      */
-    Set<String> zReverseRange(String key, long start, long end);
+    Set<Object> zReverseRange(String key, long start, long end);
 
     /**
      * 获取集合的元素, 从大到小排序, 并返回score值
@@ -910,7 +910,7 @@ public interface RedisService {
      * @param end
      * @return
      */
-    Set<ZSetOperations.TypedTuple<String>> zReverseRangeWithScores(String key,
+    Set<ZSetOperations.TypedTuple<Object>> zReverseRangeWithScores(String key,
                                                                    long start, long end);
 
     /**
@@ -1047,5 +1047,5 @@ public interface RedisService {
      * @param options
      * @return
      */
-    Cursor<ZSetOperations.TypedTuple<String>> zScan(String key, ScanOptions options);
+    Cursor<ZSetOperations.TypedTuple<Object>> zScan(String key, ScanOptions options);
 }

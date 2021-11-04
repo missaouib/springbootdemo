@@ -18,7 +18,7 @@ import java.util.concurrent.TimeUnit;
 class RedisServiceImpl implements RedisService {
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
 
     /** -------------------key相关操作--------------------- */
@@ -417,12 +417,12 @@ class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    public void hPut(String key, String hashKey, String value) {
+    public void hPut(String key, String hashKey, Object value) {
         redisTemplate.opsForHash().put(key, hashKey, value);
     }
 
     @Override
-    public void hPutAll(String key, Map<String, String> maps) {
+    public void hPutAll(String key, Map<String, Object> maps) {
         redisTemplate.opsForHash().putAll(key, maps);
     }
 
@@ -892,7 +892,7 @@ class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public Set<Object> sIntersect(String key, Collection<Object> otherKeys) {
+    public Set<Object> sIntersect(String key, Collection<String> otherKeys) {
         return redisTemplate.opsForSet().intersect(key, otherKeys);
     }
 
@@ -971,7 +971,7 @@ class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public Long sUnionAndStore(String key, Collection<Object> otherKeys,
+    public Long sUnionAndStore(String key, Collection<String> otherKeys,
                                String destKey) {
         return redisTemplate.opsForSet().unionAndStore(key, otherKeys, destKey);
     }
@@ -984,7 +984,7 @@ class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public Set<String> sDifference(String key, String otherKey) {
+    public Set<Object> sDifference(String key, String otherKey) {
         return redisTemplate.opsForSet().difference(key, otherKey);
     }
 
@@ -996,7 +996,7 @@ class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public Set<String> sDifference(String key, Collection<String> otherKeys) {
+    public Set<Object> sDifference(String key, Collection<String> otherKeys) {
         return redisTemplate.opsForSet().difference(key, otherKeys);
     }
 
@@ -1106,7 +1106,7 @@ class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public Long zAdd(String key, Set<ZSetOperations.TypedTuple<String>> values) {
+    public Long zAdd(String key, Set<ZSetOperations.TypedTuple<Object>> values) {
         return redisTemplate.opsForZSet().add(key, values);
     }
 
@@ -1166,7 +1166,7 @@ class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public Set<String> zRange(String key, long start, long end) {
+    public Set<Object> zRange(String key, long start, long end) {
         return redisTemplate.opsForZSet().range(key, start, end);
     }
 
@@ -1179,7 +1179,7 @@ class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public Set<ZSetOperations.TypedTuple<String>> zRangeWithScores(String key, long start,
+    public Set<ZSetOperations.TypedTuple<Object>> zRangeWithScores(String key, long start,
                                                                    long end) {
         return redisTemplate.opsForZSet().rangeWithScores(key, start, end);
     }
@@ -1193,7 +1193,7 @@ class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public Set<String> zRangeByScore(String key, double min, double max) {
+    public Set<Object> zRangeByScore(String key, double min, double max) {
         return redisTemplate.opsForZSet().rangeByScore(key, min, max);
     }
 
@@ -1206,7 +1206,7 @@ class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public Set<ZSetOperations.TypedTuple<String>> zRangeByScoreWithScores(String key,
+    public Set<ZSetOperations.TypedTuple<Object>> zRangeByScoreWithScores(String key,
                                                                           double min, double max) {
         return redisTemplate.opsForZSet().rangeByScoreWithScores(key, min, max);
     }
@@ -1220,7 +1220,7 @@ class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public Set<ZSetOperations.TypedTuple<String>> zRangeByScoreWithScores(String key,
+    public Set<ZSetOperations.TypedTuple<Object>> zRangeByScoreWithScores(String key,
                                                                           double min, double max, long start, long end) {
         return redisTemplate.opsForZSet().rangeByScoreWithScores(key, min, max,
                 start, end);
@@ -1235,7 +1235,7 @@ class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public Set<String> zReverseRange(String key, long start, long end) {
+    public Set<Object> zReverseRange(String key, long start, long end) {
         return redisTemplate.opsForZSet().reverseRange(key, start, end);
     }
 
@@ -1248,7 +1248,7 @@ class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public Set<ZSetOperations.TypedTuple<String>> zReverseRangeWithScores(String key,
+    public Set<ZSetOperations.TypedTuple<Object>> zReverseRangeWithScores(String key,
                                                                           long start, long end) {
         return redisTemplate.opsForZSet().reverseRangeWithScores(key, start,
                 end);
@@ -1431,7 +1431,7 @@ class RedisServiceImpl implements RedisService {
      * @return
      */
     @Override
-    public Cursor<ZSetOperations.TypedTuple<String>> zScan(String key, ScanOptions options) {
+    public Cursor<ZSetOperations.TypedTuple<Object>> zScan(String key, ScanOptions options) {
         return redisTemplate.opsForZSet().scan(key, options);
     }
 }
